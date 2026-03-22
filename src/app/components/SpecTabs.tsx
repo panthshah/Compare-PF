@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Tabs, Tab, type Selection } from "@heroui/react";
+import { Tabs, Tab } from "@heroui/react";
 
 const tabs = [
   { key: "key-specs", title: "Key specifications" },
@@ -147,7 +147,7 @@ export default function SpecTabs({ activeTab, onTabChange, isSticky }: SpecTabsP
           radius="full"
           fullWidth
           selectedKey={activeTab}
-          onSelectionChange={(key: Selection) => handleTabChange(String(key))}
+          onSelectionChange={(key) => handleTabChange(String(key))}
           classNames={{
             base: "w-full",
             tabList: "bg-zinc-100 p-1 w-full",

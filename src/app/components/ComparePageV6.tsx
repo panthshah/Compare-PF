@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Tabs, Tab, type Selection } from "@heroui/react";
+import { Tabs, Tab } from "@heroui/react";
 import SpecTabsV6 from "./SpecTabsV6";
 import { products, tabs } from "../data/specs";
 
@@ -32,7 +32,7 @@ export default function ComparePageV6() {
             radius="full"
             fullWidth
             selectedKey={activeTab}
-            onSelectionChange={(key: Selection) => setActiveTab(String(key))}
+            onSelectionChange={(key) => setActiveTab(String(key))}
             classNames={{
               base: "w-full",
               tabList: "bg-zinc-100 p-1 w-full",

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Tabs, Tab, type Selection } from "@heroui/react";
+import { Tabs, Tab } from "@heroui/react";
 import { tabs, specData } from "../data/specs";
 
 interface Props {
@@ -91,7 +91,7 @@ export default function SpecTableV4({ activeTab, onTabChange }: Props) {
           radius="full"
           fullWidth
           selectedKey={activeTab}
-          onSelectionChange={(key: Selection) => handleTabChange(String(key))}
+          onSelectionChange={(key) => handleTabChange(String(key))}
           classNames={{
             base: "w-full",
             tabList: "bg-zinc-100 p-1 w-full",
