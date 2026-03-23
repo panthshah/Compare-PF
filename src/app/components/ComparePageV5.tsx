@@ -12,7 +12,7 @@ const products = [
     badgeColor: "text-blue-600 bg-blue-50",
     description: "Smarter cooling, seamless connectivity, engineered for modern living",
     price: "$3149",
-    image: "/products/fridge-1.png",
+    image: "products/fridge-1.png",
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ const products = [
     badgeColor: "text-green-600 bg-green-50",
     description: "Dependable performance for every family, every day.",
     price: "$1099",
-    image: "/products/fridge-2.png",
+    image: "products/fridge-2.png",
   },
   {
     id: 3,
@@ -30,7 +30,7 @@ const products = [
     badgeColor: "text-orange-600 bg-orange-50",
     description: "More storage options. More ways to make it yours",
     price: "$3149",
-    image: "/products/fridge-3.png",
+    image: "products/fridge-3.png",
   },
 ];
 
