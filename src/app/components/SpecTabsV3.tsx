@@ -12,6 +12,12 @@ const tabs = [
   { key: "smart", title: "Smart Features" },
 ];
 
+const productNames = [
+  "Bespoke AI 4-Door French",
+  "4-Door French",
+  "Bespoke AI 4-Door Flex",
+];
+
 type SpecRow = { label: string; values: [string, string, string] };
 
 const specData: Record<string, SpecRow[]> = {
@@ -134,54 +140,82 @@ export default function SpecTabsV3({ activeTab, onTabChange, isSticky }: SpecTab
 
   return (
     <div className="px-[128px]">
-      <div className={`sticky z-30 bg-white pb-[48px] ${isSticky ? "top-[56px]" : "top-0"}`}>
-        <div className="flex items-center justify-end mb-[16px]">
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setShowDifferences(!showDifferences)}
-              className={`relative inline-flex h-[22px] w-[40px] shrink-0 cursor-pointer rounded-full transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
-                showDifferences ? "bg-zinc-900" : "bg-zinc-300"
-              }`}
-            >
-              <span
-                className={`pointer-events-none inline-block h-[18px] w-[18px] transform rounded-full bg-white shadow-sm transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] mt-[2px] ${
-                  showDifferences ? "translate-x-[20px]" : "translate-x-[2px]"
+      <div className="mb-[16px] relative">
+        <div
+          style={{
+            opacity: isSticky ? 0 : 1,
+            transform: isSticky ? "translateY(-8px)" : "translateY(0)",
+            transition: "opacity 350ms cubic-bezier(0.16, 1, 0.3, 1), transform 350ms cubic-bezier(0.16, 1, 0.3, 1)",
+            pointerEvents: isSticky ? "none" : "auto",
+            position: isSticky ? "absolute" : "relative",
+            width: "100%",
+          }}
+        >
+          <div className="flex items-center justify-end mb-[16px]">
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setShowDifferences(!showDifferences)}
+                className={`relative inline-flex h-[22px] w-[40px] shrink-0 cursor-pointer rounded-full transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+                  showDifferences ? "bg-zinc-900" : "bg-zinc-300"
                 }`}
-              />
-            </button>
-            <span
-              className="text-[14px] font-semibold text-zinc-900"
-              style={{ fontFamily: "var(--font-samsung-one)" }}
-            >
-              Apply Key Differences
-            </span>
+              >
+                <span
+                  className={`pointer-events-none inline-block h-[18px] w-[18px] transform rounded-full bg-white shadow-sm transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] mt-[2px] ${
+                    showDifferences ? "translate-x-[20px]" : "translate-x-[2px]"
+                  }`}
+                />
+              </button>
+              <span
+                className="text-[14px] font-semibold text-zinc-900"
+                style={{ fontFamily: "var(--font-samsung-one)" }}
+              >
+                Apply Key Differences
+              </span>
+            </div>
           </div>
+
+          <Tabs
+            aria-label="Specification categories"
+            variant="solid"
+            radius="full"
+            fullWidth
+            selectedKey={activeTab}
+            onSelectionChange={(key) => handleTabChange(String(key))}
+            classNames={{
+              base: "w-full",
+              tabList: "bg-zinc-100 p-1 w-full h-[48px]",
+              tab: "h-[40px] text-[18px] text-zinc-900 font-normal flex-1",
+              tabContent:
+                "group-data-[selected=true]:font-bold group-data-[selected=true]:text-zinc-900 group-data-[selected=true]:text-[18px] transition-all duration-300",
+              cursor: "bg-white shadow-sm",
+            }}
+            style={{ fontFamily: "var(--font-samsung-one)" }}
+          >
+            {tabs.map((tab) => (
+              <Tab key={tab.key} title={tab.title} />
+            ))}
+          </Tabs>
         </div>
 
-        <Tabs
-          aria-label="Specification categories"
-          variant="solid"
-          radius="full"
-          fullWidth
-          selectedKey={activeTab}
-          onSelectionChange={(key) => handleTabChange(String(key))}
-          classNames={{
-            base: "w-full",
-            tabList: "bg-zinc-100 p-1 w-full",
-            tab: "h-[48px] text-[18px] text-zinc-900 font-normal flex-1",
-            tabContent:
-              "group-data-[selected=true]:font-bold group-data-[selected=true]:text-zinc-900 group-data-[selected=true]:text-[18px] transition-all duration-300",
-            cursor: "bg-white shadow-sm",
-          }}
-          style={{ fontFamily: "var(--font-samsung-one)" }}
-        >
-          {tabs.map((tab) => (
-            <Tab key={tab.key} title={tab.title} />
-          ))}
-        </Tabs>
       </div>
 
       <div ref={specsRef} className="scroll-mt-[260px] flex flex-col">
+        {isSticky && (
+          <div className="sticky top-[68px] z-20 bg-white border-b border-zinc-300 py-[12px]">
+            <div className="flex gap-[91px] items-center">
+              {productNames.map((name) => (
+                <div key={name} className="flex-1">
+                  <p
+                    className="text-[18px] font-bold text-zinc-900 truncate"
+                    style={{ fontFamily: "var(--font-sharp-sans)" }}
+                  >
+                    {name}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
         {currentSpecs.map((spec, index) => {
           const isDifferent = spec.values.some((v) => v !== spec.values[0]);
           const shouldHighlight = showDifferences && isDifferent;

@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { Tabs, Tab } from "@heroui/react";
 import SpecTabsV3 from "./SpecTabsV3";
+import { tabs } from "../data/specs";
 
 const products = [
   {
@@ -48,31 +50,34 @@ export default function ComparePageV3() {
 
   return (
     <main className="min-h-screen">
-      {/* Sticky bar: product titles + buy now */}
+      {/* Sticky tab bar: appears on scroll */}
       <div
-        className={`fixed top-0 left-0 right-0 z-50 bg-white border-b border-zinc-200 transition-transform duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 bg-white transition-transform duration-300 ${
           isSticky ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <div className="px-[128px] py-[12px]">
-          <div className="flex gap-[91px]">
-            {products.map((product) => (
-              <div key={product.id} className="flex-1 flex items-center justify-between">
-                <h2
-                  className="text-[16px] font-bold text-zinc-900"
-                  style={{ fontFamily: "var(--font-sharp-sans)" }}
-                >
-                  {product.title}
-                </h2>
-                <button
-                  className="rounded-full bg-zinc-900 px-5 py-2 text-[14px] font-bold text-white transition-colors hover:bg-zinc-800"
-                  style={{ fontFamily: "var(--font-samsung-one)" }}
-                >
-                  Buy Now
-                </button>
-              </div>
+        <div className="px-[128px] py-[10px]">
+          <Tabs
+            aria-label="Specification categories"
+            variant="solid"
+            radius="full"
+            fullWidth
+            selectedKey={activeTab}
+            onSelectionChange={(key) => setActiveTab(String(key))}
+            classNames={{
+              base: "w-full",
+              tabList: "bg-zinc-100 p-1 w-full h-[48px]",
+              tab: "h-[40px] text-[18px] text-zinc-900 font-normal flex-1",
+              tabContent:
+                "group-data-[selected=true]:font-bold group-data-[selected=true]:text-zinc-900 group-data-[selected=true]:text-[18px] transition-all duration-300",
+              cursor: "bg-white shadow-sm",
+            }}
+            style={{ fontFamily: "var(--font-samsung-one)" }}
+          >
+            {tabs.map((tab) => (
+              <Tab key={tab.key} title={tab.title} />
             ))}
-          </div>
+          </Tabs>
         </div>
       </div>
 

@@ -98,8 +98,8 @@ export default function SpecTabsV6({ activeTab, onTabChange, showDifferences, se
             onSelectionChange={(key) => handleTabChange(String(key))}
             classNames={{
               base: "w-full",
-              tabList: "bg-zinc-100 p-1 w-full",
-              tab: "h-[48px] text-[18px] text-zinc-900 font-normal flex-1",
+              tabList: "bg-zinc-100 p-1 w-full h-[48px]",
+              tab: "h-[40px] text-[18px] text-zinc-900 font-normal flex-1",
               tabContent:
                 "group-data-[selected=true]:font-bold group-data-[selected=true]:text-zinc-900 group-data-[selected=true]:text-[18px] transition-all duration-300",
               cursor: "bg-white shadow-sm",
@@ -129,7 +129,7 @@ export default function SpecTabsV6({ activeTab, onTabChange, showDifferences, se
                 className="text-[11px] font-bold tracking-[0.1em] uppercase text-zinc-400"
                 style={{ fontFamily: "var(--font-samsung-one)" }}
               >
-                Compare Models
+                Specifications
               </span>
             </div>
             <div className="flex-1">
@@ -161,7 +161,7 @@ export default function SpecTabsV6({ activeTab, onTabChange, showDifferences, se
             return (
               <div
                 key={`${displayTab}-${index}`}
-                className={`py-[16px] border-b border-zinc-200 transition-colors duration-300 ${
+                className={`py-[16px] transition-colors duration-300 ${
                   shouldHighlight ? "bg-[#F4F4F4] rounded-xl" : ""
                 }`}
                 style={{
@@ -174,7 +174,7 @@ export default function SpecTabsV6({ activeTab, onTabChange, showDifferences, se
                 <div className="flex gap-[32px] items-center min-h-[44px]">
                   <div className="w-[200px] shrink-0 pr-[32px] h-full flex items-center">
                     <h3
-                      className="text-[15px] font-bold text-zinc-900 leading-snug"
+                      className="text-[16px] font-bold text-zinc-900 leading-snug"
                       style={{ fontFamily: "var(--font-samsung-one)" }}
                     >
                       {spec.label}

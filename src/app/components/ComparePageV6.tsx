@@ -21,11 +21,11 @@ export default function ComparePageV6() {
     <main className="min-h-screen">
       {/* Sticky tab bar — slides in from top on scroll */}
       <div
-        className={`fixed top-0 left-0 right-0 z-50 bg-white border-b border-zinc-200 transition-transform duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 bg-white transition-transform duration-300 ${
           isSticky ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <div className="px-[128px] py-[10px]">
+        <div className="px-[128px] py-[24px]">
           <Tabs
             aria-label="Specification categories"
             variant="solid"
@@ -35,8 +35,8 @@ export default function ComparePageV6() {
             onSelectionChange={(key) => setActiveTab(String(key))}
             classNames={{
               base: "w-full",
-              tabList: "bg-zinc-100 p-1 w-full",
-              tab: "h-[44px] text-[18px] text-zinc-900 font-normal flex-1",
+              tabList: "bg-zinc-100 p-1 w-full h-[48px]",
+              tab: "h-[40px] text-[18px] text-zinc-900 font-normal flex-1",
               tabContent:
                 "group-data-[selected=true]:font-bold group-data-[selected=true]:text-zinc-900 group-data-[selected=true]:text-[18px] transition-all duration-300",
               cursor: "bg-white shadow-sm",
