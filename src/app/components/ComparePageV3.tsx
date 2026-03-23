@@ -59,7 +59,7 @@ export default function ComparePageV3() {
           isSticky ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <div className="max-w-[1600px] mx-auto px-[128px] py-[10px]">
+        <div className="max-w-[1600px] mx-auto px-[128px] py-[24px]">
           <Tabs
             aria-label="Specification categories"
             variant="solid"

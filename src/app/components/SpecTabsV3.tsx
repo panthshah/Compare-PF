@@ -132,7 +132,7 @@ export default function SpecTabsV3({ activeTab, onTabChange, isSticky }: SpecTab
     onTabChange(key);
     requestAnimationFrame(() => {
       if (specsRef.current) {
-        const top = specsRef.current.getBoundingClientRect().top + window.scrollY - 260;
+        const top = specsRef.current.getBoundingClientRect().top + window.scrollY - 312;
         window.scrollTo({ top, behavior: "smooth" });
       }
     });
@@ -199,9 +199,9 @@ export default function SpecTabsV3({ activeTab, onTabChange, isSticky }: SpecTab
 
       </div>
 
-      <div ref={specsRef} className="scroll-mt-[260px] flex flex-col">
+      <div ref={specsRef} className="scroll-mt-[312px] flex flex-col">
         {isSticky && (
-          <div className="sticky top-[68px] z-20 bg-white border-b border-zinc-300 py-[12px]">
+          <div className="sticky top-[96px] z-20 bg-white border-b border-zinc-300 py-[12px]">
             <div className="flex gap-[91px] items-center">
               {productNames.map((name) => (
                 <div key={name} className="flex-1">
@@ -216,6 +216,7 @@ export default function SpecTabsV3({ activeTab, onTabChange, isSticky }: SpecTab
             </div>
           </div>
         )}
+        {isSticky && <div className="h-[24px]" />}
         {currentSpecs.map((spec, index) => {
           const isDifferent = spec.values.some((v) => v !== spec.values[0]);
           const shouldHighlight = showDifferences && isDifferent;
