@@ -55,7 +55,7 @@ export default function ComparePageV5() {
           isSticky ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <div className="px-[128px] py-[12px]">
+        <div className="max-w-[1440px] mx-auto px-[128px] py-[12px]">
           <div className="flex gap-[32px] items-center">
             <div className="w-[200px] shrink-0 pr-[32px]">
               <span
@@ -96,7 +96,7 @@ export default function ComparePageV5() {
         Find what product is best for you
       </h1>
 
-      <section className="mt-[48px] px-[128px]">
+      <section className="mt-[48px] max-w-[1440px] mx-auto px-[128px]">
         <div className="flex gap-[91px]">
           {products.map((product) => (
             <div key={product.id} className="flex-1">
@@ -157,8 +157,8 @@ export default function ComparePageV5() {
 
       <div className="mt-[64px]" />
 
-      <footer className="mt-auto border-t border-zinc-200 bg-[#FAFAFA] px-[128px] py-[48px]">
-        <div className="flex items-center justify-between">
+      <footer className="mt-auto border-t border-zinc-200 bg-[#FAFAFA] py-[48px]">
+        <div className="max-w-[1440px] mx-auto px-[128px] flex items-center justify-between">
           <p
             className="text-[14px] font-bold text-zinc-900"
             style={{ fontFamily: "var(--font-sharp-sans)" }}

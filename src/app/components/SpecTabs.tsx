@@ -116,7 +116,7 @@ export default function SpecTabs({ activeTab, onTabChange, isSticky }: SpecTabsP
   };
 
   return (
-    <div className="px-[128px]">
+    <div className="max-w-[1440px] mx-auto px-[128px]">
       <div className={`sticky z-30 bg-white pb-[48px] ${isSticky ? "top-[56px]" : "top-0"}`}>
         <div className="flex items-center justify-end mb-[16px]">
           <div className="flex items-center gap-2">

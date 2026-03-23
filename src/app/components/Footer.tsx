@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
-    <footer className="mt-auto border-t border-zinc-200 bg-[#FAFAFA] px-[128px] py-[48px]">
-      <div className="flex items-center justify-between">
+    <footer className="mt-auto border-t border-zinc-200 bg-[#FAFAFA] py-[48px]">
+      <div className="max-w-[1440px] mx-auto px-[128px] flex items-center justify-between">
         <p
           className="text-[14px] font-bold text-zinc-900"
           style={{ fontFamily: "var(--font-sharp-sans)" }}

@@ -22,7 +22,7 @@ export default function ProductHeader() {
           isSticky ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <div className="px-[128px] py-[12px]">
+        <div className="max-w-[1440px] mx-auto px-[128px] py-[12px]">
           <div className="flex gap-[91px]">
             {products.map((product) => (
               <div key={product.id} className="flex-1 flex items-center justify-between">
@@ -51,7 +51,7 @@ export default function ProductHeader() {
         Find what product is best for you
       </h1>
 
-      <section className="mt-[48px] px-[128px]">
+      <section className="mt-[48px] max-w-[1440px] mx-auto px-[128px]">
         <div className="flex gap-[91px]">
           {products.map((product) => (
             <div key={product.id} className="flex-1">
