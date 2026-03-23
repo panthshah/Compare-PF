@@ -52,7 +52,7 @@ export default function SpecTabsV6({ activeTab, onTabChange, showDifferences, se
   };
 
   return (
-    <div className="max-w-[1440px] mx-auto px-[128px]">
+    <div className="max-w-[1600px] mx-auto px-[128px]">
       {/* Cross-fade: tabs fade out, product names fade in */}
       <div className="mb-[16px] relative">
         {/* Tabs — fade out on scroll */}

@@ -139,7 +139,7 @@ export default function SpecTabsV3({ activeTab, onTabChange, isSticky }: SpecTab
   };
 
   return (
-    <div className="max-w-[1440px] mx-auto px-[128px]">
+    <div className="max-w-[1600px] mx-auto px-[128px]">
       <div className="mb-[16px] relative">
         <div
           style={{

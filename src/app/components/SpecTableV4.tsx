@@ -83,7 +83,7 @@ export default function SpecTableV4({ activeTab, onTabChange }: Props) {
   };
 
   return (
-    <div className="max-w-[1440px] mx-auto px-[128px]">
+    <div className="max-w-[1600px] mx-auto px-[128px]">
       <div className="sticky top-[56px] z-30 bg-white pt-[16px] pb-[48px]">
         <Tabs
           aria-label="Specification categories"
