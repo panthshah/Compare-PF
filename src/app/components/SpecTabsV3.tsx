@@ -240,7 +240,7 @@ export default function SpecTabsV3({ activeTab, onTabChange, isSticky }: SpecTab
               }}
             >
               <h3
-                className="text-[16px] font-bold text-zinc-900 mb-[16px]"
+                className="text-[14px] uppercase tracking-wider font-bold text-zinc-500 mb-4"
                 style={{ fontFamily: "var(--font-samsung-one)" }}
               >
                 {spec.label}
