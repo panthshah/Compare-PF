@@ -146,31 +146,8 @@ export default function SpecTabsV3({ activeTab, onTabChange, isSticky }: SpecTab
             width: "100%",
           }}
         >
-          <div className="flex items-center gap-[24px]">
-            <div className="flex-1">
-              <Tabs
-                aria-label="Specification categories"
-                variant="solid"
-                radius="full"
-                fullWidth
-                selectedKey={activeTab}
-                onSelectionChange={(key) => handleTabChange(String(key))}
-                classNames={{
-                  base: "w-full",
-                  tabList: "bg-zinc-100 p-1 w-full h-[48px]",
-                  tab: "h-[40px] text-[18px] text-zinc-900 font-normal flex-1",
-                  tabContent:
-                    "group-data-[selected=true]:font-bold group-data-[selected=true]:text-zinc-900 group-data-[selected=true]:text-[18px] transition-all duration-300",
-                  cursor: "bg-white shadow-sm",
-                }}
-                style={{ fontFamily: "var(--font-samsung-one)" }}
-              >
-                {tabs.map((tab) => (
-                  <Tab key={tab.key} title={tab.title} />
-                ))}
-              </Tabs>
-            </div>
-            <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center justify-end mb-[16px]">
+            <div className="flex items-center gap-2">
               <button
                 onClick={() => setShowDifferences(!showDifferences)}
                 className={`relative inline-flex h-[22px] w-[40px] shrink-0 cursor-pointer rounded-full transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
@@ -184,13 +161,35 @@ export default function SpecTabsV3({ activeTab, onTabChange, isSticky }: SpecTab
                 />
               </button>
               <span
-                className="text-[14px] font-semibold text-zinc-900 whitespace-nowrap"
+                className="text-[14px] font-semibold text-zinc-900"
                 style={{ fontFamily: "var(--font-samsung-one)" }}
               >
-                Key Differences
+                Apply Key Differences
               </span>
             </div>
           </div>
+
+          <Tabs
+            aria-label="Specification categories"
+            variant="solid"
+            radius="full"
+            fullWidth
+            selectedKey={activeTab}
+            onSelectionChange={(key) => handleTabChange(String(key))}
+            classNames={{
+              base: "w-full",
+              tabList: "bg-zinc-100 p-1 w-full h-[48px]",
+              tab: "h-[40px] text-[18px] text-zinc-900 font-normal flex-1",
+              tabContent:
+                "group-data-[selected=true]:font-bold group-data-[selected=true]:text-zinc-900 group-data-[selected=true]:text-[18px] transition-all duration-300",
+              cursor: "bg-white shadow-sm",
+            }}
+            style={{ fontFamily: "var(--font-samsung-one)" }}
+          >
+            {tabs.map((tab) => (
+              <Tab key={tab.key} title={tab.title} />
+            ))}
+          </Tabs>
         </div>
 
       </div>
