@@ -55,13 +55,13 @@ export default function ProductHeader() {
         <div className="flex gap-[91px]">
           {products.map((product) => (
             <div key={product.id} className="flex-1">
-              <div className="h-[304px] lg:h-[320px] xl:h-[334px] rounded-[7px] bg-[#FAFAFA] flex items-center justify-center overflow-hidden">
+              <div className="h-[304px] lg:h-[320px] xl:h-[334px] min-[1600px]:h-[368px] rounded-[7px] bg-[#FAFAFA] flex items-center justify-center overflow-hidden">
                 <Image
                   src={product.image}
                   alt={product.title}
                   width={240}
                   height={280}
-                  className="object-contain h-auto w-auto max-h-[280px] lg:max-h-[296px] xl:max-h-[308px]"
+                  className="object-contain h-auto w-auto max-h-[280px] lg:max-h-[296px] xl:max-h-[308px] min-[1600px]:max-h-[336px]"
                 />
               </div>
 
