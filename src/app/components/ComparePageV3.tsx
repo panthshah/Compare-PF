@@ -105,7 +105,7 @@ export default function ComparePageV3() {
                 />
               </div>
 
-              <div className="mt-[32px] text-center flex flex-col items-center">
+              <div className="mt-[32px] text-left flex flex-col items-start">
                 <h2
                   className="text-[24px] font-bold text-zinc-900"
                   style={{ fontFamily: "var(--font-sharp-sans)" }}

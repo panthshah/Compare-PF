@@ -146,8 +146,31 @@ export default function SpecTabsV3({ activeTab, onTabChange, isSticky }: SpecTab
             width: "100%",
           }}
         >
-          <div className="flex items-center justify-end mb-[16px]">
-            <div className="flex items-center gap-2">
+          <div className="flex items-center gap-[24px]">
+            <div className="flex-1">
+              <Tabs
+                aria-label="Specification categories"
+                variant="solid"
+                radius="full"
+                fullWidth
+                selectedKey={activeTab}
+                onSelectionChange={(key) => handleTabChange(String(key))}
+                classNames={{
+                  base: "w-full",
+                  tabList: "bg-zinc-100 p-1 w-full h-[48px]",
+                  tab: "h-[40px] text-[18px] text-zinc-900 font-normal flex-1",
+                  tabContent:
+                    "group-data-[selected=true]:font-bold group-data-[selected=true]:text-zinc-900 group-data-[selected=true]:text-[18px] transition-all duration-300",
+                  cursor: "bg-white shadow-sm",
+                }}
+                style={{ fontFamily: "var(--font-samsung-one)" }}
+              >
+                {tabs.map((tab) => (
+                  <Tab key={tab.key} title={tab.title} />
+                ))}
+              </Tabs>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
               <button
                 onClick={() => setShowDifferences(!showDifferences)}
                 className={`relative inline-flex h-[22px] w-[40px] shrink-0 cursor-pointer rounded-full transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
@@ -161,56 +184,40 @@ export default function SpecTabsV3({ activeTab, onTabChange, isSticky }: SpecTab
                 />
               </button>
               <span
-                className="text-[14px] font-semibold text-zinc-900"
+                className="text-[14px] font-semibold text-zinc-900 whitespace-nowrap"
                 style={{ fontFamily: "var(--font-samsung-one)" }}
               >
-                Apply Key Differences
+                Key Differences
               </span>
             </div>
           </div>
-
-          <Tabs
-            aria-label="Specification categories"
-            variant="solid"
-            radius="full"
-            fullWidth
-            selectedKey={activeTab}
-            onSelectionChange={(key) => handleTabChange(String(key))}
-            classNames={{
-              base: "w-full",
-              tabList: "bg-zinc-100 p-1 w-full h-[48px]",
-              tab: "h-[40px] text-[18px] text-zinc-900 font-normal flex-1",
-              tabContent:
-                "group-data-[selected=true]:font-bold group-data-[selected=true]:text-zinc-900 group-data-[selected=true]:text-[18px] transition-all duration-300",
-              cursor: "bg-white shadow-sm",
-            }}
-            style={{ fontFamily: "var(--font-samsung-one)" }}
-          >
-            {tabs.map((tab) => (
-              <Tab key={tab.key} title={tab.title} />
-            ))}
-          </Tabs>
         </div>
 
       </div>
 
       <div ref={specsRef} className="scroll-mt-[312px] flex flex-col">
-        {isSticky && (
-          <div className="sticky top-[96px] z-20 bg-white border-b border-zinc-300 py-[12px]">
-            <div className="flex gap-[91px] items-center">
-              {productNames.map((name) => (
-                <div key={name} className="flex-1">
-                  <p
-                    className="text-[18px] font-bold text-zinc-900 truncate"
-                    style={{ fontFamily: "var(--font-sharp-sans)" }}
-                  >
-                    {name}
-                  </p>
-                </div>
-              ))}
-            </div>
+        <div
+          className="sticky top-[96px] z-20 bg-white border-b border-zinc-300 py-[12px]"
+          style={{
+            opacity: isSticky ? 1 : 0,
+            transform: isSticky ? "translateY(0)" : "translateY(-8px)",
+            transition: "opacity 300ms cubic-bezier(0.16, 1, 0.3, 1), transform 300ms cubic-bezier(0.16, 1, 0.3, 1)",
+            pointerEvents: isSticky ? "auto" : "none",
+          }}
+        >
+          <div className="flex gap-[91px] items-center">
+            {productNames.map((name) => (
+              <div key={name} className="flex-1">
+                <p
+                  className="text-[18px] font-bold text-zinc-900 truncate"
+                  style={{ fontFamily: "var(--font-sharp-sans)" }}
+                >
+                  {name}
+                </p>
+              </div>
+            ))}
           </div>
-        )}
+        </div>
         {isSticky && <div className="h-[24px]" />}
         {currentSpecs.map((spec, index) => {
           const isDifferent = spec.values.some((v) => v !== spec.values[0]);
@@ -234,7 +241,7 @@ export default function SpecTabsV3({ activeTab, onTabChange, isSticky }: SpecTab
               }}
             >
               <h3
-                className="text-[14px] uppercase tracking-wider font-bold text-zinc-500 mb-4"
+                className="text-[16px] font-bold text-zinc-900 mb-[16px]"
                 style={{ fontFamily: "var(--font-samsung-one)" }}
               >
                 {spec.label}
