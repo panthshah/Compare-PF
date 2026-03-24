@@ -226,7 +226,7 @@ export default function SpecTabsV3({ activeTab, onTabChange, isSticky }: SpecTab
           return (
             <div
               key={`${displayTab}-${index}`}
-              className={`py-[24px] transition-colors duration-300 ${
+              className={`py-[24px] border-b border-[#EEEEEE] transition-colors duration-300 ${
                 shouldHighlight ? "bg-[#F4F4F4] -mx-6 px-6 rounded-xl" : ""
               }`}
               style={{
@@ -252,10 +252,7 @@ export default function SpecTabsV3({ activeTab, onTabChange, isSticky }: SpecTab
                   const isWinner = winner && winner.index === i;
 
                   return (
-                    <div key={i} className="flex-1 relative">
-                      {i > 0 && (
-                        <div className="absolute left-[-46px] top-1/2 -translate-y-1/2 w-px h-[24px] bg-[#DDDDDD]" />
-                      )}
+                    <div key={i} className="flex-1">
                       <p
                         className={`text-[16px] font-bold leading-relaxed ${
                           shouldHighlight ? "text-zinc-900" : "text-zinc-800"
