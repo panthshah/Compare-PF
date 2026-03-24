@@ -146,7 +146,7 @@ export default function ComparePageV3() {
         </div>
       </section>
 
-      <div className="mt-[64px]">
+      <div className="mt-[96px]">
         <SpecTabsV3 activeTab={activeTab} onTabChange={setActiveTab} isSticky={isSticky} />
       </div>
 
