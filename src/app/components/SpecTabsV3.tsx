@@ -1,16 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Tabs, Tab } from "@heroui/react";
-
-const tabs = [
-  { key: "key-specs", title: "Key specifications" },
-  { key: "dimensions", title: "Dimensions" },
-  { key: "capacity", title: "Capacity and Storage" },
-  { key: "design", title: "Design and finish" },
-  { key: "performance", title: "Performance" },
-  { key: "smart", title: "Smart Features" },
-];
+import SpecificationTabs from "./SpecificationTabs";
 
 const productNames = [
   "Bespoke AI 4-Door French",
@@ -171,27 +162,7 @@ export default function SpecTabsV3({ activeTab, onTabChange, isSticky }: SpecTab
             </div>
           </div>
 
-          <Tabs
-            aria-label="Specification categories"
-            variant="solid"
-            radius="full"
-            fullWidth
-            selectedKey={activeTab}
-            onSelectionChange={(key) => handleTabChange(String(key))}
-            classNames={{
-              base: "w-full",
-              tabList: "bg-zinc-100 p-1 w-full h-[48px]",
-              tab: "h-[40px] text-[18px] text-zinc-900 font-normal flex-1",
-              tabContent:
-                "group-data-[selected=true]:font-bold group-data-[selected=true]:text-zinc-900 group-data-[selected=true]:text-[18px] transition-all duration-300",
-              cursor: "bg-white shadow-sm",
-            }}
-            style={{ fontFamily: "var(--font-samsung-one)" }}
-          >
-            {tabs.map((tab) => (
-              <Tab key={tab.key} title={tab.title} />
-            ))}
-          </Tabs>
+          <SpecificationTabs activeTab={activeTab} onTabChange={handleTabChange} />
         </div>
 
       </div>

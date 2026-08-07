@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Tabs, Tab } from "@heroui/react";
 import SpecTabsV6 from "./SpecTabsV6";
-import { products, tabs } from "../data/specs";
+import SpecificationTabs from "./SpecificationTabs";
+import { products } from "../data/specs";
 
 export default function ComparePageV6() {
   const [activeTab, setActiveTab] = useState("key-specs");
@@ -26,27 +26,7 @@ export default function ComparePageV6() {
         }`}
       >
         <div className="mx-auto max-w-[1600px] overflow-x-auto px-4 py-3 sm:px-8 lg:px-16 xl:px-[128px] xl:py-[24px]">
-          <Tabs
-            aria-label="Specification categories"
-            variant="solid"
-            radius="full"
-            fullWidth
-            selectedKey={activeTab}
-            onSelectionChange={(key) => setActiveTab(String(key))}
-            classNames={{
-              base: "w-full",
-              tabList: "bg-zinc-100 p-1 w-full h-[48px]",
-              tab: "h-[40px] text-[18px] text-zinc-900 font-normal flex-1",
-              tabContent:
-                "group-data-[selected=true]:font-bold group-data-[selected=true]:text-zinc-900 group-data-[selected=true]:text-[18px] transition-all duration-300",
-              cursor: "bg-white shadow-sm",
-            }}
-            style={{ fontFamily: "var(--font-samsung-one)" }}
-          >
-            {tabs.map((tab) => (
-              <Tab key={tab.key} title={tab.title} />
-            ))}
-          </Tabs>
+          <SpecificationTabs activeTab={activeTab} onTabChange={setActiveTab} />
         </div>
       </div>
       <h1

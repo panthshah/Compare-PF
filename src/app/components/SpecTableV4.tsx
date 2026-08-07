@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Tabs, Tab } from "@heroui/react";
-import { tabs, specData } from "../data/specs";
+import { specData } from "../data/specs";
+import SpecificationTabs from "./SpecificationTabs";
 
 interface Props {
   activeTab: string;
@@ -88,26 +88,7 @@ export default function SpecTableV4({ activeTab, onTabChange }: Props) {
   return (
     <div className="max-w-[1600px] mx-auto px-[128px]">
       <div className="sticky top-[56px] z-30 bg-white pt-[16px] pb-[48px]">
-        <Tabs
-          aria-label="Specification categories"
-          variant="solid"
-          radius="full"
-          fullWidth
-          selectedKey={activeTab}
-          onSelectionChange={(key) => handleTabChange(String(key))}
-          classNames={{
-            base: "w-full",
-            tabList: "bg-zinc-100 p-1 w-full",
-            tab: "h-[48px] text-[18px] text-zinc-900 font-normal flex-1",
-            tabContent: "group-data-[selected=true]:font-bold group-data-[selected=true]:text-zinc-900 group-data-[selected=true]:text-[18px] transition-all duration-300",
-            cursor: "bg-white shadow-sm",
-          }}
-          style={{ fontFamily: "var(--font-samsung-one)" }}
-        >
-          {tabs.map((tab) => (
-            <Tab key={tab.key} title={tab.title} />
-          ))}
-        </Tabs>
+        <SpecificationTabs activeTab={activeTab} onTabChange={handleTabChange} />
       </div>
 
       <div ref={specsRef} className="scroll-mt-[260px]">

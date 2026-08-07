@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Tabs, Tab } from "@heroui/react";
-import { tabs, specData, products } from "../data/specs";
+import { specData, products } from "../data/specs";
+import SpecificationTabs from "./SpecificationTabs";
 
 interface SpecTabsV6Props {
   activeTab: string;
@@ -93,27 +93,7 @@ export default function SpecTabsV6({ activeTab, onTabChange, showDifferences, se
             </div>
           </div>
 
-          <Tabs
-            aria-label="Specification categories"
-            variant="solid"
-            radius="full"
-            fullWidth
-            selectedKey={activeTab}
-            onSelectionChange={(key) => handleTabChange(String(key))}
-            classNames={{
-              base: "w-full",
-              tabList: "bg-zinc-100 p-1 w-full h-[48px]",
-              tab: "h-[40px] text-[18px] text-zinc-900 font-normal flex-1",
-              tabContent:
-                "group-data-[selected=true]:font-bold group-data-[selected=true]:text-zinc-900 group-data-[selected=true]:text-[18px] transition-all duration-300",
-              cursor: "bg-white shadow-sm",
-            }}
-            style={{ fontFamily: "var(--font-samsung-one)" }}
-          >
-            {tabs.map((tab) => (
-              <Tab key={tab.key} title={tab.title} />
-            ))}
-          </Tabs>
+          <SpecificationTabs activeTab={activeTab} onTabChange={handleTabChange} />
         </div>
 
         {/* Product names — fade in on scroll */}

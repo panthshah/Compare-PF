@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Providers } from "./providers";
 import "./globals.css";
 
 const samsungSharpSans = localFont({
@@ -40,7 +39,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
-        <Providers>{children}</Providers>
+        {children}
       </body>
     </html>
   );

@@ -2,12 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Tabs, Tab } from "@heroui/react";
 import SpecTabsV3 from "./SpecTabsV3";
-import { tabs } from "../data/specs";
+import SpecificationTabs from "./SpecificationTabs";
 
 // GitHub Pages serves under a subpath (`/Compare-PF/`), so use an absolute, base-path-aware URL.
-const imageBasePath = process.env.NODE_ENV === "production" ? "/Compare-PF" : "";
+const imageBasePath = process.env.GITHUB_ACTIONS === "true" ? "/Compare-PF" : "";
 
 const products = [
   {
@@ -60,27 +59,7 @@ export default function ComparePageV3() {
         }`}
       >
         <div className="max-w-[1600px] mx-auto px-[128px] py-[24px]">
-          <Tabs
-            aria-label="Specification categories"
-            variant="solid"
-            radius="full"
-            fullWidth
-            selectedKey={activeTab}
-            onSelectionChange={(key) => setActiveTab(String(key))}
-            classNames={{
-              base: "w-full",
-              tabList: "bg-zinc-100 p-1 w-full h-[48px]",
-              tab: "h-[40px] text-[18px] text-zinc-900 font-normal flex-1",
-              tabContent:
-                "group-data-[selected=true]:font-bold group-data-[selected=true]:text-zinc-900 group-data-[selected=true]:text-[18px] transition-all duration-300",
-              cursor: "bg-white shadow-sm",
-            }}
-            style={{ fontFamily: "var(--font-samsung-one)" }}
-          >
-            {tabs.map((tab) => (
-              <Tab key={tab.key} title={tab.title} />
-            ))}
-          </Tabs>
+          <SpecificationTabs activeTab={activeTab} onTabChange={setActiveTab} />
         </div>
       </div>
 
