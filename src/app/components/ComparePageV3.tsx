@@ -84,20 +84,20 @@ export default function ComparePageV3() {
                 />
               </div>
 
-              <div className="mt-[32px] text-left flex flex-col items-start">
-                <h2
-                  className="text-[24px] font-bold text-zinc-900"
-                  style={{ fontFamily: "var(--font-sharp-sans)" }}
-                >
-                  {product.title}
-                </h2>
-
+              <div className="mt-[32px] flex flex-col items-center text-center">
                 <span
-                  className={`mt-[16px] inline-block rounded-full px-3 py-1 text-[14px] font-semibold ${product.badgeColor}`}
+                  className={`inline-block rounded-full px-3 py-1 text-[14px] font-semibold ${product.badgeColor}`}
                   style={{ fontFamily: "var(--font-samsung-one)" }}
                 >
                   {product.badge}
                 </span>
+
+                <h2
+                  className="mt-[16px] text-[24px] font-bold text-zinc-900"
+                  style={{ fontFamily: "var(--font-sharp-sans)" }}
+                >
+                  {product.title}
+                </h2>
 
                 <p
                   className="mt-[16px] text-[18px] font-normal leading-relaxed text-zinc-600"
