@@ -21,7 +21,7 @@ export default function SpecificationTabs({
       className={`w-full ${className}`}
       style={{ fontFamily: "var(--font-samsung-one)" }}
     >
-      <Tabs.ListContainer className="w-full">
+      <Tabs.ListContainer className="w-full overflow-hidden rounded-full bg-zinc-100">
         <Tabs.List
           aria-label="Specification categories"
           className="grid min-w-[760px] grid-cols-6 rounded-full bg-zinc-100 p-1"
