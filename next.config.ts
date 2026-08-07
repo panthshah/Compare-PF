@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
-const isProd = process.env.NODE_ENV === "production";
+// GitHub Pages serves the export from a repository subpath. Vercel serves from
+// the domain root, so production mode alone must not enable the Pages prefix.
+const isGitHubPages = process.env.GITHUB_ACTIONS === "true";
 
 const nextConfig: NextConfig = {
   output: "export",
@@ -8,8 +10,11 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   trailingSlash: true,
-  basePath: isProd ? "/Compare-PF" : "",
-  assetPrefix: isProd ? "/Compare-PF/" : "",
+  basePath: isGitHubPages ? "/Compare-PF" : "",
+  assetPrefix: isGitHubPages ? "/Compare-PF/" : "",
+  turbopack: {
+    root: process.cwd(),
+  },
 };
 
 export default nextConfig;

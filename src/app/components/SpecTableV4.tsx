@@ -55,12 +55,15 @@ export default function SpecTableV4({ activeTab, onTabChange }: Props) {
 
   useEffect(() => {
     if (activeTab === displayTab) return;
-    setPhase("exit");
+    const initTimer = setTimeout(() => setPhase("exit"), 0);
     const t = setTimeout(() => {
       setDisplayTab(activeTab);
       setPhase("enter");
     }, 200);
-    return () => clearTimeout(t);
+    return () => {
+      clearTimeout(initTimer);
+      clearTimeout(t);
+    };
   }, [activeTab, displayTab]);
 
   useEffect(() => {

@@ -52,7 +52,7 @@ export default function SpecTabsV6({ activeTab, onTabChange, showDifferences, se
   };
 
   return (
-    <div className="max-w-[1600px] mx-auto px-[128px]">
+    <div className="mx-auto max-w-[1600px] overflow-x-auto px-4 sm:px-8 lg:px-16 xl:px-[128px]">
       {/* Cross-fade: tabs fade out, product names fade in */}
       <div className="mb-[16px] relative">
         {/* Tabs — fade out on scroll */}
@@ -69,6 +69,10 @@ export default function SpecTabsV6({ activeTab, onTabChange, showDifferences, se
           <div className="flex items-center justify-end mb-[16px]">
             <div className="flex items-center gap-2">
               <button
+                type="button"
+                role="switch"
+                aria-checked={showDifferences}
+                aria-label="Highlight specification differences"
                 onClick={() => setShowDifferences(!showDifferences)}
                 className={`relative inline-flex h-[22px] w-[40px] shrink-0 cursor-pointer rounded-full transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
                   showDifferences ? "bg-zinc-900" : "bg-zinc-300"
@@ -123,7 +127,7 @@ export default function SpecTabsV6({ activeTab, onTabChange, showDifferences, se
             width: "100%",
           }}
         >
-          <div className="flex gap-[32px] items-center py-[20px] border-b border-zinc-300">
+          <div className="flex min-w-[900px] gap-[32px] items-center py-[20px] border-b border-zinc-300">
             <div className="w-[200px] shrink-0 pr-[32px]">
               <span
                 className="text-[11px] font-bold tracking-[0.1em] uppercase text-zinc-400"
@@ -153,7 +157,7 @@ export default function SpecTabsV6({ activeTab, onTabChange, showDifferences, se
       <div ref={specsRef} className="scroll-mt-[120px]">
 
         {/* Spec rows */}
-        <div className="flex flex-col">
+        <div className="flex min-w-[900px] flex-col">
           {currentSpecs.map((spec, index) => {
             const isDifferent = spec.values.some((v) => v !== spec.values[0]);
             const shouldHighlight = showDifferences && isDifferent;

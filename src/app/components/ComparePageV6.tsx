@@ -25,7 +25,7 @@ export default function ComparePageV6() {
           isSticky ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <div className="max-w-[1600px] mx-auto px-[128px] py-[24px]">
+        <div className="mx-auto max-w-[1600px] overflow-x-auto px-4 py-3 sm:px-8 lg:px-16 xl:px-[128px] xl:py-[24px]">
           <Tabs
             aria-label="Specification categories"
             variant="solid"
@@ -50,14 +50,14 @@ export default function ComparePageV6() {
         </div>
       </div>
       <h1
-        className="pt-[48px] text-center font-bold text-[32px] leading-tight text-zinc-900"
+        className="px-4 pt-8 text-center text-[28px] font-bold leading-tight text-zinc-900 sm:pt-[48px] sm:text-[32px]"
         style={{ fontFamily: "var(--font-sharp-sans)" }}
       >
         Find what product is best for you
       </h1>
 
-      <section className="mt-[48px] max-w-[1600px] mx-auto px-[128px]">
-        <div className="flex gap-[91px]">
+      <section className="mx-auto mt-8 max-w-[1600px] px-4 sm:mt-[48px] sm:px-8 lg:px-16 xl:px-[128px]">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8 xl:gap-[91px]">
           {products.map((product) => (
             <div key={product.id} className="flex-1">
               <div className="h-[304px] min-[1441px]:h-[334px] min-[1600px]:h-[368px] rounded-[7px] bg-[#FAFAFA] flex items-center justify-center overflow-hidden">
@@ -99,12 +99,13 @@ export default function ComparePageV6() {
                   From {product.price}
                 </p>
 
-                <button
-                  className="mt-[24px] rounded-full bg-zinc-900 px-8 py-3 text-[18px] font-bold text-white transition-colors hover:bg-zinc-800"
+                <a
+                  href="https://www.samsung.com/us/home-appliances/refrigerators/"
+                  className="mt-[24px] rounded-full bg-zinc-900 px-8 py-3 text-[18px] font-bold text-white transition-colors hover:bg-zinc-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900"
                   style={{ fontFamily: "var(--font-samsung-one)" }}
                 >
                   Buy Now
-                </button>
+                </a>
               </div>
             </div>
           ))}
@@ -124,18 +125,18 @@ export default function ComparePageV6() {
       <div className="mt-[64px]" />
 
       <footer className="mt-auto border-t border-zinc-200 bg-[#FAFAFA] py-[48px]">
-        <div className="max-w-[1600px] mx-auto px-[128px] flex items-center justify-between">
+        <div className="mx-auto flex max-w-[1600px] flex-col items-center justify-between gap-6 px-4 text-center sm:px-8 lg:flex-row lg:px-16 lg:text-left xl:px-[128px]">
           <p
             className="text-[14px] font-bold text-zinc-900"
             style={{ fontFamily: "var(--font-sharp-sans)" }}
           >
             Samsung
           </p>
-          <div className="flex gap-[32px]">
-            <a href="#" className="text-[14px] text-zinc-500 hover:text-zinc-900" style={{ fontFamily: "var(--font-samsung-one)" }}>Privacy</a>
-            <a href="#" className="text-[14px] text-zinc-500 hover:text-zinc-900" style={{ fontFamily: "var(--font-samsung-one)" }}>Terms</a>
-            <a href="#" className="text-[14px] text-zinc-500 hover:text-zinc-900" style={{ fontFamily: "var(--font-samsung-one)" }}>Accessibility</a>
-            <a href="#" className="text-[14px] text-zinc-500 hover:text-zinc-900" style={{ fontFamily: "var(--font-samsung-one)" }}>Contact Us</a>
+          <div className="flex flex-wrap justify-center gap-x-8 gap-y-3">
+            <a href="https://www.samsung.com/us/account/privacy-policy/" className="text-[14px] text-zinc-500 hover:text-zinc-900" style={{ fontFamily: "var(--font-samsung-one)" }}>Privacy</a>
+            <a href="https://www.samsung.com/us/common/legal.html" className="text-[14px] text-zinc-500 hover:text-zinc-900" style={{ fontFamily: "var(--font-samsung-one)" }}>Terms</a>
+            <a href="https://www.samsung.com/us/accessibility/" className="text-[14px] text-zinc-500 hover:text-zinc-900" style={{ fontFamily: "var(--font-samsung-one)" }}>Accessibility</a>
+            <a href="https://www.samsung.com/us/support/contact/" className="text-[14px] text-zinc-500 hover:text-zinc-900" style={{ fontFamily: "var(--font-samsung-one)" }}>Contact Us</a>
           </div>
           <p
             className="text-[14px] text-zinc-400"

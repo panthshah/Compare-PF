@@ -11,7 +11,7 @@ export const tabs = [
 
 // GitHub Pages serves the app under a subpath (`/Compare-PF/`).
 // Use an absolute, base-path-aware URL so images work on `/v3`, `/v4`, etc.
-const imageBasePath = process.env.NODE_ENV === "production" ? "/Compare-PF" : "";
+const imageBasePath = process.env.GITHUB_ACTIONS === "true" ? "/Compare-PF" : "";
 
 export const products = [
   {

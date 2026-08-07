@@ -86,14 +86,16 @@ export default function SpecTabs({ activeTab, onTabChange, isSticky }: SpecTabsP
   useEffect(() => {
     if (activeTab === displayTab) return;
 
-    setPhase("exit");
-
+    const initTimer = setTimeout(() => setPhase("exit"), 0);
     const exitTimer = setTimeout(() => {
       setDisplayTab(activeTab);
       setPhase("enter");
     }, 250);
 
-    return () => clearTimeout(exitTimer);
+    return () => {
+      clearTimeout(initTimer);
+      clearTimeout(exitTimer);
+    };
   }, [activeTab, displayTab]);
 
   useEffect(() => {
