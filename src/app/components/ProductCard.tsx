@@ -18,14 +18,12 @@ export default function ProductCard({ product }: ProductCardProps) {
       aria-label={product.title}
       className="flex h-full w-full flex-col items-center gap-[24px] p-[16px]"
     >
-      {/* Badge row, then the image with clear space between them */}
-      <div className="flex w-full flex-col items-center gap-[16px]">
-        <div className="flex w-full justify-start">
-          <span className="font-samsung-one inline-flex items-center whitespace-nowrap rounded-[3px] bg-[#4F787F] px-[16px] py-[4px] text-[13px] font-semibold leading-[17px] text-white">
-            {product.badge}
-          </span>
-        </div>
-        <div className="flex h-[260px] w-full items-center justify-center md:h-[280px] xl:h-[300px]">
+      {/* Image area with the badge floating over its top-left corner */}
+      <div className="relative flex h-[320px] w-full items-end justify-center">
+        <span className="font-samsung-one absolute left-0 top-0 inline-flex items-center whitespace-nowrap rounded-[3px] bg-[#4F787F] px-[16px] py-[4px] text-[13px] font-semibold leading-[17px] text-white">
+          {product.badge}
+        </span>
+        <div className="flex h-[264px] w-full items-center justify-center">
           <Image
             src={product.image}
             alt={product.title}

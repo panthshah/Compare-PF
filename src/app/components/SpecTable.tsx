@@ -65,12 +65,6 @@ export default function SpecTable({
               transitionDelay: visible ? `${index * 50}ms` : "0ms",
             }}
           >
-            {highlight && (
-              <span
-                aria-hidden="true"
-                className="absolute bottom-[24px] left-[-16px] top-[24px] w-[3px] rounded-full bg-zinc-900"
-              />
-            )}
             <h3 className="font-samsung-one text-[14px] font-semibold uppercase tracking-[0.06em] leading-[18px] text-[#757575]">
               {row.label}
             </h3>
