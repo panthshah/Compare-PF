@@ -16,23 +16,19 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <article
       aria-label={product.title}
-      className="flex w-full flex-col items-center gap-[24px] rounded-[16px] p-[16px] transition-colors hover:bg-[#FAFAFA]"
+      className="flex h-full w-full flex-col items-center gap-[24px] p-[16px]"
     >
-      {/* Badge: left aligned, dark slate pill */}
-      <div className="flex w-full justify-start">
-        <span className="font-samsung-one inline-flex items-center whitespace-nowrap rounded-[3px] bg-[#4F787F] px-[16px] py-[4px] text-[13px] font-semibold leading-[17px] text-white">
+      {/* Image with the badge anchored over its top-left corner */}
+      <div className="relative flex h-[280px] w-full items-center justify-center pt-[24px] md:h-[300px] xl:h-[320px]">
+        <span className="font-samsung-one absolute left-0 top-0 inline-flex items-center whitespace-nowrap rounded-[3px] bg-[#4F787F] px-[16px] py-[4px] text-[13px] font-semibold leading-[17px] text-white">
           {product.badge}
         </span>
-      </div>
-
-      {/* Product image */}
-      <div className="flex h-[240px] w-full items-center justify-center md:h-[260px] xl:h-[280px]">
         <Image
           src={product.image}
           alt={product.title}
           width={240}
           height={280}
-          className="h-full w-auto object-contain drop-shadow-[0_18px_24px_rgba(0,0,0,0.08)]"
+          className="h-full w-auto object-contain"
           priority
         />
       </div>
@@ -42,7 +38,11 @@ export default function ProductCard({ product }: ProductCardProps) {
         <p className="font-samsung-one text-[14px] font-bold leading-[16px] text-zinc-900">
           {activeColor.name}
         </p>
-        <div role="radiogroup" aria-label={`${product.title} color`} className="flex items-center gap-[16px]">
+        <div
+          role="radiogroup"
+          aria-label={`${product.title} color`}
+          className="flex items-center gap-[16px]"
+        >
           {product.colors.map((color, i) => {
             const isActive = i === colorIndex;
             return (
@@ -54,7 +54,9 @@ export default function ProductCard({ product }: ProductCardProps) {
                 aria-label={color.name}
                 onClick={() => setColorIndex(i)}
                 className={`relative flex h-[22px] w-[22px] items-center justify-center rounded-full border transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2189FF] ${
-                  isActive ? "border-[#2189FF]" : "border-transparent hover:scale-110"
+                  isActive
+                    ? "border-[#2189FF]"
+                    : "border-transparent hover:scale-110"
                 }`}
               >
                 <span
@@ -72,23 +74,23 @@ export default function ProductCard({ product }: ProductCardProps) {
         {product.description}
       </p>
 
-      {/* Price */}
-      <div className="flex flex-col items-center gap-[6px]">
-        <div className="font-samsung-one flex flex-wrap items-baseline justify-center gap-x-[8px]">
-          <span className="text-[16px] font-bold text-zinc-900">{formatPrice(product.price)}</span>
-          <span className="text-[12px] text-zinc-500">
-            was: <s>{formatPrice(product.wasPrice)}</s>
+      {/* Price: the loudest text on the card; savings always on its own row so cards align */}
+      <div className="flex flex-col items-center gap-[4px]">
+        <div className="font-samsung-one flex items-baseline justify-center gap-x-[8px]">
+          <span className="text-[24px] font-bold leading-[28px] text-zinc-900">
+            {formatPrice(product.price)}
+          </span>
+          <span className="text-[14px] text-zinc-500">
+            was <s>{formatPrice(product.wasPrice)}</s>
           </span>
         </div>
-        {savings > 0 && (
-          <span className="font-samsung-one text-[13px] font-semibold text-[#1F8A3A]">
-            Save {formatPrice(savings)}
-          </span>
-        )}
+        <span className="font-samsung-one min-h-[20px] text-[14px] font-semibold leading-[20px] text-[#1F8A3A]">
+          {savings > 0 ? `Save ${formatPrice(savings)}` : ""}
+        </span>
       </div>
 
-      {/* Actions */}
-      <div className="font-samsung-one flex items-center gap-[20px]">
+      {/* Actions, pinned to the bottom so Buy lines up across columns */}
+      <div className="font-samsung-one mt-auto flex items-center gap-[20px]">
         <a
           href={product.learnMoreHref}
           className="text-[14px] font-semibold text-zinc-900 underline decoration-[1.5px] underline-offset-[5px] transition-colors hover:text-zinc-600 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-900"

@@ -140,8 +140,14 @@ export default function ComparePage() {
 
             {/* Specification controls */}
             <section aria-label="Specifications" className="mt-[64px]">
-              <div className="flex justify-end">
-                <label className="flex cursor-pointer select-none items-center gap-[12px]">
+              <div className="flex flex-col gap-[16px] lg:flex-row lg:items-center lg:gap-[24px]">
+                <div className="min-w-0 flex-1">
+                  <SpecificationTabs
+                    activeTab={activeTab}
+                    onTabChange={handleTabChange}
+                  />
+                </div>
+                <label className="flex shrink-0 cursor-pointer select-none items-center gap-[12px] self-end lg:self-auto">
                   <button
                     type="button"
                     role="switch"
@@ -160,17 +166,10 @@ export default function ComparePage() {
                       }`}
                     />
                   </button>
-                  <span className="font-samsung-one text-[14px] font-semibold text-zinc-900">
+                  <span className="font-samsung-one whitespace-nowrap text-[14px] font-semibold text-zinc-900">
                     Apply Key Differences
                   </span>
                 </label>
-              </div>
-
-              <div className="mt-[8px]">
-                <SpecificationTabs
-                  activeTab={activeTab}
-                  onTabChange={handleTabChange}
-                />
               </div>
 
               <div className="mt-[40px]">
