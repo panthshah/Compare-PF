@@ -5,7 +5,8 @@ import ProductCard from "./ProductCard";
 import ProductSelect from "./ProductSelect";
 import SpecificationTabs from "./SpecificationTabs";
 import SpecTable from "./SpecTable";
-import { formatPrice, products, type TabKey } from "../data/specs";
+import DifferencesToggle from "./DifferencesToggle";
+import { products, type TabKey } from "../data/specs";
 
 const COLUMN_GRID = "grid grid-cols-3 gap-[24px] md:gap-[48px]";
 
@@ -64,7 +65,8 @@ export default function ComparePage() {
         setShowStickyBar(
           !entry.isIntersecting && entry.boundingClientRect.top < 0,
         ),
-      { threshold: 0 },
+      // Fire once the Buy row is within 120px of the top, so short pages still get the header.
+      { threshold: 0, rootMargin: "-120px 0px 0px 0px" },
     );
     observer.observe(target);
     return () => observer.disconnect();
@@ -72,36 +74,35 @@ export default function ComparePage() {
 
   return (
     <main className="min-h-screen bg-white text-zinc-900">
-      {/* Compact sticky bar: product names + Buy, aligned to the spec columns */}
+      {/* Sticky header once the cards scroll off: tabs + toggle, then product names over their columns */}
       <div
         aria-hidden={!showStickyBar}
         className={`fixed inset-x-0 top-0 z-50 hidden border-b border-zinc-200 bg-white/95 backdrop-blur transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] md:block ${
           showStickyBar ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <div className="mx-auto max-w-[1440px] px-4 py-[12px] sm:px-8 lg:px-[80px]">
-          <div className={COLUMN_GRID}>
+        <div className="mx-auto max-w-[1440px] px-4 pt-[12px] sm:px-8 lg:px-[80px]">
+          <div className="flex items-center gap-[24px]">
+            <div className="min-w-0 flex-1">
+              <SpecificationTabs
+                activeTab={activeTab}
+                onTabChange={handleTabChange}
+              />
+            </div>
+            <DifferencesToggle
+              checked={showDifferences}
+              onChange={() => setShowDifferences((s) => !s)}
+              tabIndex={showStickyBar ? 0 : -1}
+            />
+          </div>
+          <div className={`${COLUMN_GRID} py-[14px]`}>
             {selectedProducts.map((product) => (
-              <div
+              <p
                 key={product.id}
-                className="flex min-w-0 items-center justify-between gap-3"
+                className="font-sharp-sans truncate text-[16px] font-bold"
               >
-                <div className="min-w-0">
-                  <p className="font-sharp-sans truncate text-[16px] font-bold">
-                    {product.title}
-                  </p>
-                  <p className="font-samsung-one text-[13px] text-zinc-600">
-                    {formatPrice(product.price)}
-                  </p>
-                </div>
-                <a
-                  href={product.buyHref}
-                  tabIndex={showStickyBar ? 0 : -1}
-                  className="font-samsung-one inline-flex h-[32px] shrink-0 items-center rounded-full bg-zinc-900 px-[18px] text-[13px] font-bold text-white transition-colors hover:bg-zinc-700"
-                >
-                  Buy
-                </a>
-              </div>
+                {product.title}
+              </p>
             ))}
           </div>
         </div>
@@ -140,37 +141,27 @@ export default function ComparePage() {
 
             {/* Specification controls */}
             <section aria-label="Specifications" className="mt-[64px]">
-              <div className="flex justify-end">
-                <label className="flex cursor-pointer select-none items-center gap-[12px]">
-                  <button
-                    type="button"
-                    role="switch"
-                    aria-checked={showDifferences}
-                    aria-label="Apply key differences"
-                    onClick={() => setShowDifferences((s) => !s)}
-                    className={`relative inline-flex h-[24px] w-[44px] shrink-0 cursor-pointer rounded-full transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 ${
-                      showDifferences ? "bg-zinc-900" : "bg-zinc-300"
-                    }`}
-                  >
-                    <span
-                      className={`pointer-events-none mt-[2px] inline-block h-[20px] w-[20px] rounded-full bg-white shadow-sm transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
-                        showDifferences
-                          ? "translate-x-[22px]"
-                          : "translate-x-[2px]"
-                      }`}
-                    />
-                  </button>
-                  <span className="font-samsung-one text-[15px] font-semibold text-zinc-900">
-                    Apply Key Differences
-                  </span>
-                </label>
-              </div>
+              <div
+                className="transition-opacity duration-300"
+                style={{
+                  opacity: showStickyBar ? 0 : 1,
+                  pointerEvents: showStickyBar ? "none" : "auto",
+                }}
+                aria-hidden={showStickyBar}
+              >
+                <div className="flex justify-end">
+                  <DifferencesToggle
+                    checked={showDifferences}
+                    onChange={() => setShowDifferences((s) => !s)}
+                  />
+                </div>
 
-              <div className="mt-[16px]">
-                <SpecificationTabs
-                  activeTab={activeTab}
-                  onTabChange={handleTabChange}
-                />
+                <div className="mt-[16px]">
+                  <SpecificationTabs
+                    activeTab={activeTab}
+                    onTabChange={handleTabChange}
+                  />
+                </div>
               </div>
 
               <div className="mt-[32px]">
