@@ -20,19 +20,19 @@ export default function SpecificationTabs({
       onSelectionChange={(key) => onTabChange(String(key) as TabKey)}
       className={`font-samsung-one w-full ${className}`}
     >
-      <Tabs.ListContainer className="w-full overflow-x-auto rounded-full bg-[#F4F4F4] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <Tabs.ListContainer className="w-full overflow-x-auto rounded-[32px] bg-[#F6F6F6] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <Tabs.List
           aria-label="Specification categories"
-          className="flex h-[56px] w-max min-w-full items-center gap-1 rounded-full bg-[#F4F4F4] p-[4px]"
+          className="flex h-[56px] w-max min-w-full items-center justify-between gap-[8px] rounded-[32px] bg-[#F6F6F6] px-[8px] py-[6px]"
         >
           {tabs.map((tab) => (
             <Tabs.Tab
               key={tab.key}
               id={tab.key}
-              className="relative isolate flex h-[48px] w-auto flex-1 shrink-0 cursor-pointer items-center justify-center rounded-full px-[20px] text-[15px] font-medium whitespace-nowrap text-zinc-700 outline-none transition-colors hover:text-zinc-900 focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 aria-selected:font-bold aria-selected:text-zinc-900 sm:px-[24px] sm:text-[16px]"
+              className="relative isolate flex h-[44px] w-auto flex-none cursor-pointer items-center justify-center rounded-[24px] px-[12px] py-[10px] text-[16px] font-medium leading-[24px] whitespace-nowrap text-zinc-700 outline-none transition-colors hover:text-zinc-900 focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 aria-selected:font-bold aria-selected:text-zinc-900 sm:text-[18px]"
             >
               <span className="relative z-10">{tab.title}</span>
-              <Tabs.Indicator className="absolute inset-0 -z-10 rounded-full bg-white shadow-[0_1px_4px_rgba(0,0,0,0.08)]" />
+              <Tabs.Indicator className="absolute inset-0 -z-10 rounded-[24px] bg-white" />
             </Tabs.Tab>
           ))}
         </Tabs.List>

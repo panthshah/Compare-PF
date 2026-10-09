@@ -166,7 +166,7 @@ export default function ComparePage() {
                 </label>
               </div>
 
-              <div className="mt-[16px]">
+              <div className="mt-[8px]">
                 <SpecificationTabs
                   activeTab={activeTab}
                   onTabChange={handleTabChange}

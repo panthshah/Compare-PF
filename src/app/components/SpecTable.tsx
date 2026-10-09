@@ -40,21 +40,15 @@ export default function SpecTable({ displayTab, visible, selectedProducts, showD
               transitionDelay: visible ? `${index * 50}ms` : "0ms",
             }}
           >
-            <h3 className="font-samsung-one text-[16px] font-semibold leading-[22px] text-zinc-700">
+            <h3 className="font-samsung-one text-[20px] font-bold leading-[20px] text-[#757575]">
               {row.label}
             </h3>
-            <div className="mt-[16px] grid grid-cols-3 gap-[24px] md:gap-[48px]">
+            <div className="mt-[20px] grid grid-cols-3 gap-[24px] md:gap-[48px]">
               {cells.map((cell, i) => (
-                <div key={selectedProducts[i].id} className="font-samsung-one flex flex-col gap-[2px]">
-                  <p
-                    className={`text-[14px] leading-[20px] text-zinc-900 ${
-                      highlight ? "font-bold" : "font-semibold"
-                    }`}
-                  >
-                    {cell.value}
-                  </p>
+                <div key={selectedProducts[i].id} className="font-samsung-one flex flex-col">
+                  <p className="text-[16px] font-bold leading-[24px] text-black">{cell.value}</p>
                   {cell.note && (
-                    <p className="text-[13px] leading-[18px] text-zinc-600">{cell.note}</p>
+                    <p className="text-[16px] font-bold leading-[24px] text-black">{cell.note}</p>
                   )}
                 </div>
               ))}
