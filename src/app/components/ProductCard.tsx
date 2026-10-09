@@ -16,11 +16,11 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <article
       aria-label={product.title}
-      className="flex w-full flex-col items-center gap-[32px] rounded-[16px] p-[24px] transition-colors hover:bg-[#FAFAFA]"
+      className="flex w-full flex-col items-center gap-[24px] rounded-[16px] p-[16px] transition-colors hover:bg-[#FAFAFA]"
     >
       {/* Badge: left aligned, dark slate pill */}
       <div className="flex w-full justify-start">
-        <span className="font-samsung-one inline-flex items-center whitespace-nowrap rounded-[4px] bg-[#3F4B55] px-[10px] py-[4px] text-[12px] font-semibold leading-none text-white">
+        <span className="font-samsung-one inline-flex items-center whitespace-nowrap rounded-[3px] bg-[#4F787F] px-[16px] py-[4px] text-[13px] font-semibold leading-[17px] text-white">
           {product.badge}
         </span>
       </div>
@@ -38,11 +38,11 @@ export default function ProductCard({ product }: ProductCardProps) {
       </div>
 
       {/* Color swatches */}
-      <div className="flex flex-col items-center gap-[10px]">
-        <p className="font-samsung-one text-[11px] font-semibold uppercase tracking-[0.04em] text-zinc-700">
+      <div className="flex flex-col items-center gap-[16px]">
+        <p className="font-samsung-one text-[14px] font-bold leading-[16px] text-zinc-900">
           {activeColor.name}
         </p>
-        <div role="radiogroup" aria-label={`${product.title} color`} className="flex items-center gap-[10px]">
+        <div role="radiogroup" aria-label={`${product.title} color`} className="flex items-center gap-[16px]">
           {product.colors.map((color, i) => {
             const isActive = i === colorIndex;
             return (
@@ -53,12 +53,12 @@ export default function ProductCard({ product }: ProductCardProps) {
                 aria-checked={isActive}
                 aria-label={color.name}
                 onClick={() => setColorIndex(i)}
-                className={`relative flex h-[22px] w-[22px] items-center justify-center rounded-full transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 ${
-                  isActive ? "ring-1 ring-zinc-900 ring-offset-2 ring-offset-white" : "hover:scale-110"
+                className={`relative flex h-[22px] w-[22px] items-center justify-center rounded-full border transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2189FF] ${
+                  isActive ? "border-[#2189FF]" : "border-transparent hover:scale-110"
                 }`}
               >
                 <span
-                  className="block h-[14px] w-[14px] rounded-full border border-black/10"
+                  className="block h-[16px] w-[16px] rounded-full border border-black/10"
                   style={{ backgroundColor: color.hex }}
                 />
               </button>
