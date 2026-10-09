@@ -39,6 +39,20 @@ export default function SpecTable({
         const differs = hasDifference(cells);
         const highlight = showDifferences && differs;
         const muted = showDifferences && !differs;
+        // Badge the winning value only when the toggle is on and nothing ties it.
+        const winner = row.best;
+        const winnerCell = winner ? row.values[winner.product - 1] : undefined;
+        const winnerTied =
+          !!winner &&
+          !!winnerCell &&
+          cells.some(
+            (c, i) =>
+              selectedProducts[i].id !== winner.product &&
+              c.value === winnerCell.value &&
+              (c.note ?? "") === (winnerCell.note ?? ""),
+          );
+        const badgeProductId =
+          highlight && winner && !winnerTied ? winner.product : null;
 
         return (
           <section
@@ -75,6 +89,35 @@ export default function SpecTable({
                     <p className="text-[14px] leading-[20px] text-zinc-600">
                       {cell.note}
                     </p>
+                  )}
+                  {winner && badgeProductId === selectedProducts[i].id && (
+                    <span
+                      className="font-samsung-one mt-[8px] inline-flex w-fit items-center gap-[6px] rounded-[3px] bg-[#4F787F] px-[10px] py-[3px] text-[12px] font-semibold leading-[16px] text-white"
+                      style={{
+                        opacity: visible ? 1 : 0,
+                        transform: visible
+                          ? "translateY(0)"
+                          : "translateY(4px)",
+                        transition:
+                          "opacity 400ms cubic-bezier(0.16,1,0.3,1) 120ms, transform 400ms cubic-bezier(0.16,1,0.3,1) 120ms",
+                      }}
+                    >
+                      <svg
+                        aria-hidden="true"
+                        viewBox="0 0 12 12"
+                        fill="none"
+                        className="h-[10px] w-[10px]"
+                      >
+                        <path
+                          d="M2 6.5l2.5 2.5L10 3.5"
+                          stroke="currentColor"
+                          strokeWidth="1.6"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      {winner.label}
+                    </span>
                   )}
                 </div>
               ))}
