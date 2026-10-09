@@ -1,174 +1,190 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import SpecTabs from "./SpecTabs";
+import { useCallback, useEffect, useRef, useState } from "react";
+import ProductCard from "./ProductCard";
+import ProductSelect from "./ProductSelect";
+import SpecificationTabs from "./SpecificationTabs";
+import SpecTable from "./SpecTable";
+import { formatPrice, products, type TabKey } from "../data/specs";
 
-// GitHub Pages serves under a subpath (`/Compare-PF/`), so use an absolute, base-path-aware URL.
-const imageBasePath = process.env.NODE_ENV === "production" ? "/Compare-PF" : "";
-
-const products = [
-  {
-    id: 1,
-    title: "Bespoke AI 4-Door French",
-    badge: "Best for smart home",
-    badgeColor: "text-blue-600 bg-blue-50",
-    description: "Smarter cooling, seamless connectivity, engineered for modern living",
-    price: "$3,599",
-    image: `${imageBasePath}/products/fridge-1.png`,
-  },
-  {
-    id: 2,
-    title: "3-Door French Door",
-    badge: "Best for value",
-    badgeColor: "text-green-600 bg-green-50",
-    description: "Dependable performance for every family, every day.",
-    price: "$1,974",
-    image: `${imageBasePath}/products/fridge-2.png`,
-  },
-  {
-    id: 3,
-    title: "Bespoke 4-Door Flex",
-    badge: "Best for large families",
-    badgeColor: "text-orange-600 bg-orange-50",
-    description: "More storage options. More ways to make it yours",
-    price: "$1,799",
-    image: `${imageBasePath}/products/fridge-3.png`,
-  },
-];
+const COLUMN_GRID = "grid grid-cols-3 gap-[24px] md:gap-[48px]";
 
 export default function ComparePage() {
-  const [activeTab, setActiveTab] = useState("key-specs");
-  const [isSticky, setIsSticky] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<number[]>(
+    products.map((p) => p.id),
+  );
+  const [activeTab, setActiveTab] = useState<TabKey>("key-specs");
+  const [displayTab, setDisplayTab] = useState<TabKey>("key-specs");
+  const [tableVisible, setTableVisible] = useState(true);
+  const tabTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [showDifferences, setShowDifferences] = useState(false);
+  const [showStickyBar, setShowStickyBar] = useState(false);
+  const cardsRef = useRef<HTMLDivElement>(null);
 
+  const selectedProducts = selectedIds.map(
+    (id) => products.find((p) => p.id === id)!,
+  );
+
+  // Swap columns when a product already on screen is chosen for another slot.
+  const handleSelect = useCallback((slot: number, productId: number) => {
+    setSelectedIds((current) => {
+      if (current[slot] === productId) return current;
+      const next = [...current];
+      const existingSlot = next.indexOf(productId);
+      if (existingSlot !== -1) next[existingSlot] = current[slot];
+      next[slot] = productId;
+      return next;
+    });
+  }, []);
+
+  // Fade the current rows out, swap the tab, then stagger the new rows in.
+  const handleTabChange = useCallback((key: TabKey) => {
+    setActiveTab(key);
+    setTableVisible(false);
+    if (tabTimer.current) clearTimeout(tabTimer.current);
+    tabTimer.current = setTimeout(() => {
+      setDisplayTab(key);
+      setTableVisible(true);
+    }, 220);
+  }, []);
+
+  useEffect(
+    () => () => {
+      if (tabTimer.current) clearTimeout(tabTimer.current);
+    },
+    [],
+  );
+
+  // Show a compact product bar once the cards have scrolled out of view.
   useEffect(() => {
-    const handleScroll = () => {
-      setIsSticky(window.scrollY > 600);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const target = cardsRef.current;
+    if (!target) return;
+    const observer = new IntersectionObserver(
+      ([entry]) =>
+        setShowStickyBar(
+          !entry.isIntersecting && entry.boundingClientRect.top < 0,
+        ),
+      { threshold: 0 },
+    );
+    observer.observe(target);
+    return () => observer.disconnect();
   }, []);
 
   return (
-    <main className="min-h-screen">
-      {/* Sticky bar: product titles + buy now */}
+    <main className="min-h-screen bg-white text-zinc-900">
+      {/* Compact sticky bar: product names + Buy, aligned to the spec columns */}
       <div
-        className={`fixed top-0 left-0 right-0 z-50 bg-white border-b border-zinc-200 transition-transform duration-300 ${
-          isSticky ? "translate-y-0" : "-translate-y-full"
+        aria-hidden={!showStickyBar}
+        className={`fixed inset-x-0 top-0 z-50 hidden border-b border-zinc-200 bg-white/95 backdrop-blur transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] md:block ${
+          showStickyBar ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <div className="max-w-[1600px] mx-auto px-[128px] py-[12px]">
-          <div className="flex gap-[91px]">
-            {products.map((product) => (
-              <div key={product.id} className="flex-1 flex items-center justify-between">
-                <h2
-                  className="text-[16px] font-bold text-zinc-900"
-                  style={{ fontFamily: "var(--font-sharp-sans)" }}
+        <div className="mx-auto max-w-[1440px] px-4 py-[12px] sm:px-8 lg:px-[80px]">
+          <div className={COLUMN_GRID}>
+            {selectedProducts.map((product) => (
+              <div
+                key={product.id}
+                className="flex min-w-0 items-center justify-between gap-3"
+              >
+                <div className="min-w-0">
+                  <p className="font-sharp-sans truncate text-[16px] font-bold">
+                    {product.title}
+                  </p>
+                  <p className="font-samsung-one text-[13px] text-zinc-600">
+                    {formatPrice(product.price)}
+                  </p>
+                </div>
+                <a
+                  href={product.buyHref}
+                  tabIndex={showStickyBar ? 0 : -1}
+                  className="font-samsung-one inline-flex h-[32px] shrink-0 items-center rounded-full bg-zinc-900 px-[18px] text-[13px] font-bold text-white transition-colors hover:bg-zinc-700"
                 >
-                  {product.title}
-                </h2>
-                <button
-                  className="rounded-full bg-zinc-900 px-5 py-2 text-[14px] font-bold text-white transition-colors hover:bg-zinc-800"
-                  style={{ fontFamily: "var(--font-samsung-one)" }}
-                >
-                  Buy Now
-                </button>
+                  Buy
+                </a>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      <h1
-        className="pt-[48px] text-center font-bold text-[32px] leading-tight text-zinc-900"
-        style={{ fontFamily: "var(--font-sharp-sans)" }}
-      >
-        Find what product is best for you
-      </h1>
+      <div className="mx-auto max-w-[1440px] px-4 pb-[80px] pt-[48px] sm:px-8 lg:px-[80px] lg:pt-[80px]">
+        <h1 className="font-sharp-sans text-center text-[26px] font-bold leading-[1.25] text-[#010101] sm:text-[32px]">
+          Find what product is best for you
+        </h1>
 
-      <section className="mt-[48px] max-w-[1600px] mx-auto px-[128px]">
-        <div className="flex gap-[91px]">
-          {products.map((product) => (
-            <div key={product.id} className="flex-1">
-              <div className="h-[304px] min-[1441px]:h-[334px] min-[1600px]:h-[368px] rounded-[7px] bg-[#FAFAFA] flex items-center justify-center overflow-hidden">
-                <Image
-                  src={product.image}
-                  alt={product.title}
-                  width={240}
-                  height={280}
-                  className="object-contain h-auto w-auto max-h-[280px] min-[1441px]:max-h-[308px] min-[1600px]:max-h-[336px]"
+        {/* Below md the three columns keep a readable width and scroll horizontally together. */}
+        <div className="-mx-4 overflow-x-auto px-4 sm:-mx-8 sm:px-8 md:mx-0 md:overflow-visible md:px-0 [scrollbar-width:thin]">
+          <div className="min-w-[840px] md:min-w-0">
+            {/* Product selectors + cards */}
+            <section
+              aria-label="Products being compared"
+              className="mt-[40px] sm:mt-[48px]"
+            >
+              <div className={COLUMN_GRID}>
+                {selectedProducts.map((product, slot) => (
+                  <ProductSelect
+                    key={slot}
+                    slot={slot}
+                    selected={product}
+                    onSelect={(id) => handleSelect(slot, id)}
+                  />
+                ))}
+              </div>
+
+              <div ref={cardsRef} className={`${COLUMN_GRID} mt-[32px]`}>
+                {selectedProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            </section>
+
+            {/* Specification controls */}
+            <section aria-label="Specifications" className="mt-[64px]">
+              <div className="flex justify-end">
+                <label className="flex cursor-pointer select-none items-center gap-[12px]">
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked={showDifferences}
+                    aria-label="Apply key differences"
+                    onClick={() => setShowDifferences((s) => !s)}
+                    className={`relative inline-flex h-[22px] w-[40px] shrink-0 cursor-pointer rounded-full transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 ${
+                      showDifferences ? "bg-zinc-900" : "bg-zinc-300"
+                    }`}
+                  >
+                    <span
+                      className={`pointer-events-none mt-[2px] inline-block h-[18px] w-[18px] rounded-full bg-white shadow-sm transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+                        showDifferences
+                          ? "translate-x-[20px]"
+                          : "translate-x-[2px]"
+                      }`}
+                    />
+                  </button>
+                  <span className="font-samsung-one text-[14px] font-semibold text-zinc-900">
+                    Apply Key Differences
+                  </span>
+                </label>
+              </div>
+
+              <div className="mt-[16px]">
+                <SpecificationTabs
+                  activeTab={activeTab}
+                  onTabChange={handleTabChange}
                 />
               </div>
 
-              <div className="mt-[32px] text-center flex flex-col items-center">
-                <h2
-                  className="text-[24px] font-bold text-zinc-900"
-                  style={{ fontFamily: "var(--font-sharp-sans)" }}
-                >
-                  {product.title}
-                </h2>
-
-                <span
-                  className={`mt-[16px] inline-block rounded-full px-3 py-1 text-[14px] font-semibold ${product.badgeColor}`}
-                  style={{ fontFamily: "var(--font-samsung-one)" }}
-                >
-                  {product.badge}
-                </span>
-
-                <p
-                  className="mt-[16px] text-[18px] font-normal leading-relaxed text-zinc-600"
-                  style={{ fontFamily: "var(--font-samsung-one)" }}
-                >
-                  {product.description}
-                </p>
-
-                <p
-                  className="mt-[16px] text-[18px] font-bold text-zinc-900"
-                  style={{ fontFamily: "var(--font-samsung-one)" }}
-                >
-                  From {product.price}
-                </p>
-
-                <button
-                  className="mt-[24px] rounded-full bg-zinc-900 px-8 py-3 text-[18px] font-bold text-white transition-colors hover:bg-zinc-800"
-                  style={{ fontFamily: "var(--font-samsung-one)" }}
-                >
-                  Buy Now
-                </button>
+              <div className="mt-[40px]">
+                <SpecTable
+                  displayTab={displayTab}
+                  visible={tableVisible}
+                  selectedProducts={selectedProducts}
+                  showDifferences={showDifferences}
+                />
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <div className="mt-[64px]">
-        <SpecTabs activeTab={activeTab} onTabChange={setActiveTab} isSticky={isSticky} />
-      </div>
-
-      <div className="mt-[64px]" />
-
-      <footer className="mt-auto border-t border-zinc-200 bg-[#FAFAFA] py-[48px]">
-        <div className="max-w-[1600px] mx-auto px-[128px] flex items-center justify-between">
-          <p
-            className="text-[14px] font-bold text-zinc-900"
-            style={{ fontFamily: "var(--font-sharp-sans)" }}
-          >
-            Samsung
-          </p>
-          <div className="flex gap-[32px]">
-            <a href="#" className="text-[14px] text-zinc-500 hover:text-zinc-900" style={{ fontFamily: "var(--font-samsung-one)" }}>Privacy</a>
-            <a href="#" className="text-[14px] text-zinc-500 hover:text-zinc-900" style={{ fontFamily: "var(--font-samsung-one)" }}>Terms</a>
-            <a href="#" className="text-[14px] text-zinc-500 hover:text-zinc-900" style={{ fontFamily: "var(--font-samsung-one)" }}>Accessibility</a>
-            <a href="#" className="text-[14px] text-zinc-500 hover:text-zinc-900" style={{ fontFamily: "var(--font-samsung-one)" }}>Contact Us</a>
+            </section>
           </div>
-          <p
-            className="text-[14px] text-zinc-400"
-            style={{ fontFamily: "var(--font-samsung-one)" }}
-          >
-            © 2026 Samsung. All rights reserved.
-          </p>
         </div>
-      </footer>
+      </div>
     </main>
   );
 }
