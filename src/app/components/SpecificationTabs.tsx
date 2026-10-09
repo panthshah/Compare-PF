@@ -23,13 +23,13 @@ export default function SpecificationTabs({
       <Tabs.ListContainer className="w-full overflow-x-auto rounded-[32px] bg-[#F6F6F6] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <Tabs.List
           aria-label="Specification categories"
-          className="flex h-[56px] w-max min-w-full items-center justify-between gap-[8px] rounded-[32px] bg-[#F6F6F6] px-[8px] py-[6px]"
+          className="flex h-[56px] w-max min-w-full items-center gap-[8px] rounded-[32px] bg-[#F6F6F6] px-[8px] py-[6px]"
         >
           {tabs.map((tab) => (
             <Tabs.Tab
               key={tab.key}
               id={tab.key}
-              className="relative isolate flex h-[44px] w-auto flex-none cursor-pointer items-center justify-center rounded-[24px] px-[12px] py-[10px] text-[16px] font-medium leading-[24px] whitespace-nowrap text-zinc-700 outline-none transition-colors hover:text-zinc-900 focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 aria-selected:font-bold aria-selected:text-zinc-900 sm:text-[18px]"
+              className="relative isolate flex h-[44px] w-auto flex-1 cursor-pointer items-center justify-center rounded-[24px] px-[12px] py-[10px] text-[16px] font-medium leading-[24px] whitespace-nowrap text-zinc-700 outline-none transition-colors hover:text-zinc-900 focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 aria-selected:font-bold aria-selected:text-zinc-900 sm:text-[18px]"
             >
               <span className="relative z-10">{tab.title}</span>
               <Tabs.Indicator className="absolute inset-0 -z-10 rounded-[24px] bg-white" />
