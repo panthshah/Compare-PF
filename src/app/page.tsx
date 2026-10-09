@@ -1,5 +1,5 @@
-import ComparePageV6 from "./components/ComparePageV6";
+import ComparePage from "./components/ComparePage";
 
 export default function Home() {
-  return <ComparePageV6 />;
+  return <ComparePage />;
 }

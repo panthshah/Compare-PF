@@ -11,7 +11,7 @@ npm ci
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). The production comparison experience is served at `/`; `/v3` through `/v6` retain earlier design iterations for reference.
+Open [http://localhost:3000](http://localhost:3000). The comparison experience is served at `/`.
 
 ## Checks
 
@@ -28,4 +28,10 @@ The project uses Next.js static export and writes deployable files to `out/`.
 - GitHub Actions builds with `/Compare-PF` as the base path and deploys `out/` to GitHub Pages.
 - The single workflow in `.github/workflows/deploy-pages.yml` deploys pushes to `main`.
 
-Product and specification content lives in `src/app/data/specs.ts`; the current UI is implemented by `ComparePageV6` and `SpecTabsV6`.
+Product and specification content lives in `src/app/data/specs.ts`. The UI is composed from:
+
+- `ComparePage` – page layout, product slot selection (swap-aware), tab cross-fade and the sticky product bar.
+- `ProductSelect` – the per-column product dropdown (HeroUI Select).
+- `ProductCard` – badge, image, color swatches, description, price/savings and actions.
+- `SpecificationTabs` – pill tab bar for spec categories (HeroUI Tabs).
+- `SpecTable` – spec groups aligned to the product columns, with the "Apply Key Differences" highlight.
