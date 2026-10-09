@@ -104,20 +104,20 @@ export default function ComparePage() {
             </section>
 
             {/* Specification controls */}
-            <section aria-label="Specifications" className="mt-[64px]">
+            <section aria-label="Specifications" className="mt-[48px]">
               <div ref={sentinelRef} aria-hidden="true" className="h-px" />
               <div
                 className={`sticky top-0 z-40 bg-white transition-shadow duration-300 ${
                   stuck ? "border-b border-zinc-200" : ""
                 }`}
               >
-                <div className={`flex justify-end ${stuck ? "pt-[12px]" : ""}`}>
+                <div className="flex justify-end pt-[16px]">
                   <DifferencesToggle
                     checked={showDifferences}
                     onChange={() => setShowDifferences((s) => !s)}
                   />
                 </div>
-                <div className={stuck ? "mt-[12px]" : "mt-[16px]"}>
+                <div className="mt-[16px]">
                   <SpecificationTabs
                     activeTab={activeTab}
                     onTabChange={handleTabChange}
@@ -126,10 +126,8 @@ export default function ComparePage() {
                 {/* Product names over their columns, only while the block is stuck */}
                 <div
                   aria-hidden={!stuck}
-                  className={`${COLUMN_GRID} overflow-hidden transition-[max-height,opacity] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                    stuck
-                      ? "max-h-[64px] py-[14px] opacity-100"
-                      : "max-h-0 py-0 opacity-0"
+                  className={`${COLUMN_GRID} py-[12px] transition-opacity duration-300 ${
+                    stuck ? "opacity-100" : "opacity-0"
                   }`}
                 >
                   {selectedProducts.map((product) => (
@@ -143,7 +141,7 @@ export default function ComparePage() {
                 </div>
               </div>
 
-              <div className="mt-[32px] md:min-h-[calc(100vh-180px)]">
+              <div className="md:min-h-[calc(100vh-200px)]">
                 <SpecTable
                   displayTab={displayTab}
                   visible={tableVisible}
