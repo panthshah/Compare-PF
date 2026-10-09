@@ -86,7 +86,7 @@ export default function SpecTable({
                   )}
                   {winner && badgeProductId === selectedProducts[i].id && (
                     <span
-                      className="font-samsung-one mt-[8px] inline-flex w-fit items-center gap-[6px] rounded-[3px] bg-[#4F787F] px-[10px] py-[3px] text-[12px] font-semibold leading-[16px] text-white"
+                      className="font-samsung-one mt-[8px] inline-flex w-fit items-center gap-[6px] rounded-full bg-[#E6F4EA] px-[10px] py-[4px] text-[12px] font-semibold leading-[16px] text-[#1E6B3A]"
                       style={{
                         opacity: visible ? 1 : 0,
                         transform: visible
