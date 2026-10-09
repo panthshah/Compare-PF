@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import { formatPrice, type Product } from "../data/specs";
 
@@ -9,8 +8,6 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const [colorIndex, setColorIndex] = useState(0);
-  const activeColor = product.colors[colorIndex] ?? product.colors[0];
   const savings = product.wasPrice - product.price;
 
   return (
@@ -18,58 +15,22 @@ export default function ProductCard({ product }: ProductCardProps) {
       aria-label={product.title}
       className="flex h-full w-full flex-col items-center gap-[24px] p-[16px]"
     >
-      {/* Image area with the badge floating over its top-left corner */}
-      <div className="relative flex h-[320px] w-full items-end justify-center">
-        <span className="font-samsung-one absolute left-0 top-0 inline-flex items-center whitespace-nowrap rounded-[3px] bg-[#4F787F] px-[16px] py-[4px] text-[13px] font-semibold leading-[17px] text-white">
-          {product.badge}
-        </span>
-        <div className="flex h-[264px] w-full items-center justify-center">
-          <Image
-            src={product.image}
-            alt={product.title}
-            width={240}
-            height={280}
-            className="h-full w-auto object-contain"
-            priority
-          />
-        </div>
+      {/* Product image */}
+      <div className="flex h-[280px] w-full items-center justify-center md:h-[300px]">
+        <Image
+          src={product.image}
+          alt={product.title}
+          width={240}
+          height={280}
+          className="h-full w-auto object-contain"
+          priority
+        />
       </div>
 
-      {/* Color swatches */}
-      <div className="flex flex-col items-center gap-[16px]">
-        <p className="font-samsung-one text-[14px] font-bold leading-[16px] text-zinc-900">
-          {activeColor.name}
-        </p>
-        <div
-          role="radiogroup"
-          aria-label={`${product.title} color`}
-          className="flex items-center gap-[16px]"
-        >
-          {product.colors.map((color, i) => {
-            const isActive = i === colorIndex;
-            return (
-              <button
-                key={color.name}
-                type="button"
-                role="radio"
-                aria-checked={isActive}
-                aria-label={color.name}
-                onClick={() => setColorIndex(i)}
-                className={`relative flex h-[22px] w-[22px] items-center justify-center rounded-full border transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2189FF] ${
-                  isActive
-                    ? "border-[#2189FF]"
-                    : "border-transparent hover:scale-110"
-                }`}
-              >
-                <span
-                  className="block h-[16px] w-[16px] rounded-full border border-black/10"
-                  style={{ backgroundColor: color.hex }}
-                />
-              </button>
-            );
-          })}
-        </div>
-      </div>
+      {/* "Best for" pill */}
+      <span className="font-samsung-one inline-flex items-center whitespace-nowrap rounded-full bg-[#EEF3F8] px-[14px] py-[6px] text-[13px] font-semibold leading-[16px] text-[#1F4E79]">
+        {product.badge}
+      </span>
 
       {/* Description */}
       <p className="font-samsung-one max-w-[300px] text-center text-[14px] leading-[20px] text-zinc-800 sm:text-[15px]">

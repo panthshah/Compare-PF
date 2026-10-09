@@ -140,39 +140,40 @@ export default function ComparePage() {
 
             {/* Specification controls */}
             <section aria-label="Specifications" className="mt-[64px]">
-              <div className="flex flex-col gap-[16px] lg:flex-row lg:items-center lg:gap-[24px]">
-                <div className="min-w-0 flex-1">
-                  <SpecificationTabs
-                    activeTab={activeTab}
-                    onTabChange={handleTabChange}
-                  />
-                </div>
-                <label className="flex shrink-0 cursor-pointer select-none items-center gap-[12px] self-end lg:self-auto">
+              <div className="flex justify-end">
+                <label className="flex cursor-pointer select-none items-center gap-[12px]">
                   <button
                     type="button"
                     role="switch"
                     aria-checked={showDifferences}
                     aria-label="Apply key differences"
                     onClick={() => setShowDifferences((s) => !s)}
-                    className={`relative inline-flex h-[22px] w-[40px] shrink-0 cursor-pointer rounded-full transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 ${
+                    className={`relative inline-flex h-[24px] w-[44px] shrink-0 cursor-pointer rounded-full transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 ${
                       showDifferences ? "bg-zinc-900" : "bg-zinc-300"
                     }`}
                   >
                     <span
-                      className={`pointer-events-none mt-[2px] inline-block h-[18px] w-[18px] rounded-full bg-white shadow-sm transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+                      className={`pointer-events-none mt-[2px] inline-block h-[20px] w-[20px] rounded-full bg-white shadow-sm transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
                         showDifferences
-                          ? "translate-x-[20px]"
+                          ? "translate-x-[22px]"
                           : "translate-x-[2px]"
                       }`}
                     />
                   </button>
-                  <span className="font-samsung-one whitespace-nowrap text-[14px] font-semibold text-zinc-900">
+                  <span className="font-samsung-one text-[15px] font-semibold text-zinc-900">
                     Apply Key Differences
                   </span>
                 </label>
               </div>
 
-              <div className="mt-[40px]">
+              <div className="mt-[16px]">
+                <SpecificationTabs
+                  activeTab={activeTab}
+                  onTabChange={handleTabChange}
+                />
+              </div>
+
+              <div className="mt-[32px]">
                 <SpecTable
                   displayTab={displayTab}
                   visible={tableVisible}
