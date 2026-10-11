@@ -1,40 +1,35 @@
 "use client";
 
 import PromptChips from "./PromptChips";
-import SearchResultCard from "./SearchResultCard";
 import { SparkleIcon } from "./SearchComposer";
-import { productById, type SearchAnswer } from "../data/searchAnswers";
-import type { Product } from "../data/specs";
+import type { SearchAnswer } from "../data/searchAnswers";
 
-interface AnswerMessageProps {
-  turnId: string;
+interface AiOverviewProps {
   /** Null while the answer is still being "generated". */
   answer: SearchAnswer | null;
-  compareIds: Product["id"][];
-  compareFull: boolean;
-  onToggleCompare: (id: Product["id"]) => void;
   onFollowUp: (prompt: string) => void;
   busy: boolean;
 }
 
 /**
- * The assistant's turn: a direct answer, supporting points, product results,
- * source links and follow-up prompts. Blocks fade in with the same staggered
- * ease the compare page uses for spec rows.
+ * The AI answer that sits above the product grid: a direct answer, the points
+ * behind it, its sources and follow-up questions. Blocks rise in with the
+ * same ease the compare page uses for spec rows.
  */
-export default function AnswerMessage({
-  turnId,
+export default function AiOverview({
   answer,
-  compareIds,
-  compareFull,
-  onToggleCompare,
   onFollowUp,
   busy,
-}: AnswerMessageProps) {
+}: AiOverviewProps) {
   return (
-    <div className="font-samsung-one">
+    <section
+      aria-label="Samsung AI answer"
+      aria-live="polite"
+      aria-busy={!answer}
+      className="font-samsung-one rounded-[8px] bg-ss-bg-gray p-[20px] sm:p-[32px]"
+    >
       <p className="flex items-center gap-[8px] text-[14px] font-bold text-black">
-        <SparkleIcon className="h-[18px] w-[18px]" />
+        <SparkleIcon className="h-[18px] w-[18px] text-ss-blue-pressed" />
         Samsung AI
       </p>
 
@@ -51,7 +46,7 @@ export default function AnswerMessage({
               cy="20"
               r="17"
               fill="none"
-              stroke="var(--color-ss-fill)"
+              stroke="var(--color-ss-divider)"
               strokeWidth="4"
             />
             <circle
@@ -66,47 +61,23 @@ export default function AnswerMessage({
             />
           </svg>
           <span className="text-[14px] text-ss-gray-text">
-            Searching samsung.com
+            Reading samsung.com product details
           </span>
         </div>
       ) : (
-        <div className="mt-[12px] flex flex-col gap-[24px]">
+        <div className="mt-[12px] grid gap-[24px] lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:gap-[48px]">
           <Reveal index={0}>
-            <p className="text-[18px] leading-[28px] text-black">
+            <p className="text-[18px] leading-[28px] text-black sm:text-[20px] sm:leading-[30px]">
               {answer.summary}
             </p>
             {answer.highlights.length > 0 && (
-              <ul className="mt-[12px] flex list-disc flex-col gap-[8px] pl-[20px] text-[16px] leading-[24px] text-black marker:text-ss-stroke">
+              <ul className="mt-[16px] flex list-disc flex-col gap-[8px] pl-[20px] text-[16px] leading-[24px] text-black marker:text-ss-stroke">
                 {answer.highlights.map((point) => (
                   <li key={point}>{point}</li>
                 ))}
               </ul>
             )}
-          </Reveal>
-
-          <Reveal index={1}>
-            <h2 className="sr-only">Matching products</h2>
-            {/* Swipeable row on small screens, a 3-column grid from md up. */}
-            <div className="-mx-4 flex snap-x snap-mandatory gap-[12px] overflow-x-auto px-4 pb-[4px] [scrollbar-width:thin] sm:-mx-8 sm:px-8 md:mx-0 md:grid md:grid-cols-3 md:gap-[16px] md:overflow-visible md:px-0">
-              {answer.picks.map((pick) => {
-                const selected = compareIds.includes(pick.productId);
-                return (
-                  <SearchResultCard
-                    key={pick.productId}
-                    turnId={turnId}
-                    product={productById(pick.productId)}
-                    reason={pick.reason}
-                    selected={selected}
-                    compareDisabled={compareFull && !selected}
-                    onToggleCompare={() => onToggleCompare(pick.productId)}
-                  />
-                );
-              })}
-            </div>
-          </Reveal>
-
-          <Reveal index={2}>
-            <p className="text-[12px] leading-[18px] text-ss-gray-text">
+            <p className="mt-[16px] text-[12px] leading-[18px] text-ss-gray-text">
               <span className="font-bold">Sources: </span>
               {answer.sources.map((source, i) => (
                 <span key={source.href}>
@@ -120,17 +91,21 @@ export default function AnswerMessage({
                 </span>
               ))}
             </p>
+          </Reveal>
+
+          <Reveal index={1}>
+            <h2 className="text-[14px] font-bold text-black">Ask next</h2>
             <PromptChips
               label="Follow-up questions"
               prompts={answer.followUps}
               onPick={onFollowUp}
               disabled={busy}
-              className="mt-[16px]"
+              className="mt-[12px]"
             />
           </Reveal>
         </div>
       )}
-    </div>
+    </section>
   );
 }
 

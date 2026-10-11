@@ -1,10 +1,12 @@
-import { products, type Product } from "./specs";
+import { products, specData, type Product } from "./specs";
 
 /** A product the assistant recommends, with the reason it fits the question. */
 export type AnswerPick = { productId: Product["id"]; reason: string };
 
 export type SearchAnswer = {
   id: string;
+  /** How the question was understood, shown as chips above the answer. */
+  understood: string[];
   /** Short lead sentence, the direct answer. */
   summary: string;
   /** Supporting points shown as a list under the summary. */
@@ -36,6 +38,7 @@ export const suggestedPrompts = [
 const intents: MockIntent[] = [
   {
     id: "family",
+    understood: ["Family of 5", "Most space", "Refrigerators"],
     keywords: [
       "family",
       "families",
@@ -71,6 +74,7 @@ const intents: MockIntent[] = [
   },
   {
     id: "smart",
+    understood: ["Smart features", "Touchscreen", "Refrigerators"],
     keywords: [
       "smart",
       "screen",
@@ -106,6 +110,7 @@ const intents: MockIntent[] = [
   },
   {
     id: "value",
+    understood: ["Under $2,000", "Best value", "French door"],
     keywords: [
       "value",
       "cheap",
@@ -139,6 +144,7 @@ const intents: MockIntent[] = [
   },
   {
     id: "energy",
+    understood: ["Energy use", "Energy Star", "Refrigerators"],
     keywords: [
       "energy",
       "efficient",
@@ -172,6 +178,7 @@ const intents: MockIntent[] = [
   },
   {
     id: "ice",
+    understood: ["Ice maker", "Water dispenser", "Refrigerators"],
     keywords: ["ice", "water", "dispenser", "drinks"],
     summary:
       "The 3-Door French Door makes the most ice, about 5.5 lbs a day, but it has no water dispenser.",
@@ -192,6 +199,7 @@ const intents: MockIntent[] = [
   },
   {
     id: "fit",
+    understood: ["36″ opening", "Dimensions", "Refrigerators"],
     keywords: [
       "fit",
       "opening",
@@ -227,6 +235,7 @@ const intents: MockIntent[] = [
 
 const fallback: SearchAnswer = {
   id: "all",
+  understood: ["Refrigerators"],
   summary:
     "Here are the three refrigerators in this lineup. Pick two or three to compare them side by side.",
   highlights: [
@@ -262,3 +271,57 @@ export function answerFor(question: string): SearchAnswer {
 
 export const productById = (id: Product["id"]) =>
   products.find((p) => p.id === id)!;
+
+/** One-line spec summary for a result card, from the compare page's key specs. */
+export function specLine(product: Product): string {
+  const cell = (label: string) =>
+    specData["key-specs"].find((row) => row.label === label)?.values[
+      product.id - 1
+    ].value;
+  return [
+    cell("Total Capacity"),
+    cell("Cooling Technology"),
+    cell("Smart Display"),
+  ]
+    .filter((v) => v && v !== "None")
+    .join(" | ");
+}
+
+const STOP_WORDS = new Set([
+  "the",
+  "for",
+  "and",
+  "with",
+  "fridge",
+  "fridges",
+  "refrigerator",
+  "refrigerators",
+  "best",
+  "which",
+  "what",
+  "show",
+]);
+
+/**
+ * Products for the overlay as the shopper types: any meaningful word that
+ * appears in the name or "best for" badge counts, most matches first.
+ */
+export function matchProducts(query: string): Product[] {
+  const words = query
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter((w) => w.length >= 3 && !STOP_WORDS.has(w));
+  if (words.length === 0) return [];
+  const score = (p: Product) => {
+    const text = `${p.title} ${p.badge}`.toLowerCase();
+    return words.filter((w) => text.includes(w)).length;
+  };
+  return products
+    .map((p) => ({ p, s: score(p) }))
+    .filter(({ s }) => s > 0)
+    .sort((x, y) => y.s - x.s)
+    .map(({ p }) => p);
+}
+
+/** Seed for the overlay's recent searches, as if the shopper had been here. */
+export const recentSearchesSeed = ["Bespoke refrigerator"];
