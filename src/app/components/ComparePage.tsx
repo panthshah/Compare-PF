@@ -1,6 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import ProductCard from "./ProductCard";
 import ProductSelect from "./ProductSelect";
 import SpecificationTabs from "./SpecificationTabs";
@@ -10,10 +16,34 @@ import { products, type TabKey } from "../data/specs";
 
 const COLUMN_GRID = "grid grid-cols-3 gap-[24px] md:gap-[48px]";
 
+/**
+ * Conversational search hands off with `?compare=3,1`: those products take the
+ * first columns in that order and the rest fill in behind them.
+ */
+function columnOrder(search: string): number[] {
+  const requested = (new URLSearchParams(search).get("compare") ?? "")
+    .split(",")
+    .map(Number)
+    .filter((id) => products.some((p) => p.id === id));
+  const ordered = [...new Set(requested)];
+  for (const p of products) if (!ordered.includes(p.id)) ordered.push(p.id);
+  return ordered;
+}
+
+// The query string never changes while the page is open, so there is nothing
+// to subscribe to. The server snapshot is empty, which keeps the static export
+// prerendering the default order.
+const noSubscription = () => () => {};
+
 export default function ComparePage() {
-  const [selectedIds, setSelectedIds] = useState<number[]>(
-    products.map((p) => p.id),
+  const search = useSyncExternalStore(
+    noSubscription,
+    () => window.location.search,
+    () => "",
   );
+  // Null until the shopper picks a product, so the URL order applies first.
+  const [pickedIds, setPickedIds] = useState<number[] | null>(null);
+  const selectedIds = pickedIds ?? columnOrder(search);
   const [activeTab, setActiveTab] = useState<TabKey>("key-specs");
   const [displayTab, setDisplayTab] = useState<TabKey>("key-specs");
   const [tableVisible, setTableVisible] = useState(true);
@@ -27,16 +57,20 @@ export default function ComparePage() {
   );
 
   // Swap columns when a product already on screen is chosen for another slot.
-  const handleSelect = useCallback((slot: number, productId: number) => {
-    setSelectedIds((current) => {
-      if (current[slot] === productId) return current;
-      const next = [...current];
-      const existingSlot = next.indexOf(productId);
-      if (existingSlot !== -1) next[existingSlot] = current[slot];
-      next[slot] = productId;
-      return next;
-    });
-  }, []);
+  const handleSelect = useCallback(
+    (slot: number, productId: number) => {
+      setPickedIds((picked) => {
+        const current = picked ?? columnOrder(search);
+        if (current[slot] === productId) return current;
+        const next = [...current];
+        const existingSlot = next.indexOf(productId);
+        if (existingSlot !== -1) next[existingSlot] = current[slot];
+        next[slot] = productId;
+        return next;
+      });
+    },
+    [search],
+  );
 
   // Fade the current rows out, swap the tab, then stagger the new rows in.
   const handleTabChange = useCallback((key: TabKey) => {

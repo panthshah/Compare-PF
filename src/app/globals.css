@@ -11,6 +11,17 @@
   --color-foreground: var(--foreground);
   --font-sharp-sans: var(--font-sharp-sans);
   --font-samsung-one: var(--font-samsung-one);
+
+  /* samsung.com design system colors (design.md, Foundations) */
+  --color-ss-blue: #2189ff;
+  --color-ss-blue-pressed: #006bea;
+  --color-ss-gray-text: #555555;
+  --color-ss-disabled: #757575;
+  --color-ss-stroke: #8f8f8f;
+  --color-ss-divider: #dddddd;
+  --color-ss-fill: #eeeeee;
+  --color-ss-bg-gray: #f7f7f7;
+  --color-ss-snackbar: #313131;
 }
 
 body {
@@ -27,5 +38,17 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* Answer blocks in conversational search rise in like the compare spec rows. */
+@keyframes answer-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

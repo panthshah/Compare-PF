@@ -11,7 +11,7 @@ npm ci
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). The comparison experience is served at `/`.
+Open [http://localhost:3000](http://localhost:3000). The comparison experience is served at `/`, and the conversational search prototype at `/search`.
 
 ## Checks
 
@@ -35,3 +35,14 @@ Product and specification content lives in `src/app/data/specs.ts`. The UI is co
 - `ProductCard` – badge, image, color swatches, description, price/savings and actions.
 - `SpecificationTabs` – pill tab bar for spec categories (HeroUI Tabs).
 - `SpecTable` – spec groups aligned to the product columns, with the "Apply Key Differences" highlight.
+
+The conversational search prototype (`/search`) uses mocked answers from `src/app/data/searchAnswers.ts`, written from the same product data. It is composed from:
+
+- `ConversationalSearch` – empty state with suggested prompts, the conversation, and the sticky composer and compare tray.
+- `SearchComposer` – the chat-style query field.
+- `PromptChips` – suggested prompts and follow-up questions.
+- `AnswerMessage` – the answer text, product results, sources and follow-ups.
+- `SearchResultCard` – a compact product result with a compare checkbox.
+- `CompareTray` – collects ticked products and opens the compare page with `/?compare=3,1`, which puts those products in the first columns.
+
+Colors for the new components come from the design.md tokens added to `@theme` in `globals.css` (`ss-blue`, `ss-divider`, `ss-bg-gray` and so on).
