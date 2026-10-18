@@ -32,10 +32,23 @@ export default function ProductCard({ product }: ProductCardProps) {
         {product.badge}
       </span>
 
-      {/* Description */}
-      <p className="font-samsung-one max-w-[300px] text-center text-[14px] leading-[20px] text-zinc-800 sm:text-[15px]">
-        {product.description}
-      </p>
+      {/* Reviewer evidence for the pill above */}
+      <div className="flex min-h-[86px] max-w-[320px] flex-col items-center gap-[6px]">
+        <p className="font-samsung-one inline-flex items-center gap-[5px] text-[11px] font-semibold uppercase tracking-[0.06em] text-zinc-500">
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 20 20"
+            className="h-[11px] w-[11px]"
+            fill="currentColor"
+          >
+            <path d="M10 1l1.8 5.2L17 8l-5.2 1.8L10 15l-1.8-5.2L3 8l5.2-1.8L10 1zM16 13l.9 2.1L19 16l-2.1.9L16 19l-.9-2.1L13 16l2.1-.9L16 13z" />
+          </svg>
+          What reviewers say
+        </p>
+        <p className="font-samsung-one text-center text-[14px] leading-[20px] text-zinc-700">
+          {product.reviewSummary}
+        </p>
+      </div>
 
       {/* Price: the loudest text on the card; savings always on its own row so cards align */}
       <div className="flex flex-col items-center gap-[4px]">

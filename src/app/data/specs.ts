@@ -26,7 +26,8 @@ export type Product = {
   id: number;
   title: string;
   badge: string;
-  description: string;
+  /** Two or three lines of reviewer evidence for the "Best for" pill. */
+  reviewSummary: string;
   price: number;
   wasPrice: number;
   colors: ProductColor[];
@@ -40,8 +41,8 @@ export const products: Product[] = [
     id: 1,
     title: "Bespoke AI 4-Door French",
     badge: "Best for smart home",
-    description:
-      "Family Hub+ screen, AI Vision Inside and SmartThings energy savings built in",
+    reviewSummary:
+      "Owners praise the Family Hub+ screen for recipes and seeing inside remotely, and the AI Vision camera for tracking groceries.",
     price: 3599,
     wasPrice: 4299,
     colors: [
@@ -58,8 +59,8 @@ export const products: Product[] = [
     id: 2,
     title: "3-Door French Door",
     badge: "Best for value",
-    description:
-      "Dependable Twin Cooling Plus performance for every family, every day",
+    reviewSummary:
+      "Reviewers call it dependable value: steady Twin Cooling Plus performance, a roomy fresh-food section and an easy-open handle.",
     price: 1974,
     wasPrice: 2799,
     colors: [
@@ -76,8 +77,8 @@ export const products: Product[] = [
     id: 3,
     title: "Bespoke 4-Door Flex",
     badge: "Best for large families",
-    description:
-      "A FlexZone drawer with five settings and more ways to make it yours",
+    reviewSummary:
+      "Owners love the FlexZone drawer that switches between fridge and freezer for parties and bulk shopping, plus the slim counter-depth profile.",
     price: 1799,
     wasPrice: 2699,
     colors: [
