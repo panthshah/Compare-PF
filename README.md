@@ -11,7 +11,7 @@ npm ci
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). The comparison experience is served at `/`.
+Open [http://localhost:3000](http://localhost:3000). The comparison experience is served at `/`. A recreation of the global team's proposed layout (summary cards and icon-led key features) is at `/global-proposal` for side-by-side review.
 
 ## Checks
 
