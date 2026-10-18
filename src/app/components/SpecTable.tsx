@@ -2,6 +2,8 @@
 
 import {
   hasDifference,
+  insights,
+  tabs,
   specData,
   type Product,
   type TabKey,
@@ -28,12 +30,55 @@ export default function SpecTable({
   showDifferences,
 }: SpecTableProps) {
   const rows = specData[displayTab] ?? [];
+  const insight = insights[displayTab];
+  const tabTitle = tabs.find((t) => t.key === displayTab)?.title ?? "";
+  const fade = {
+    opacity: visible ? 1 : 0,
+    transform: visible ? "translateY(0)" : "translateY(12px)",
+    transition:
+      "opacity 500ms cubic-bezier(0.16,1,0.3,1), transform 500ms cubic-bezier(0.16,1,0.3,1)",
+  } as const;
 
   return (
     <div
       className="flex flex-col divide-y divide-zinc-200 border-t border-zinc-200"
       aria-live="polite"
     >
+      {/* Bottom line: shown with Apply Key Differences, resolves the tab's differences into a pick */}
+      {showDifferences && (
+        <div className="py-[16px]" style={fade}>
+          <div className="font-samsung-one flex items-start gap-[12px] rounded-[12px] border border-[#DBE4EE] bg-[#F3F6FA] px-[16px] py-[14px] text-[15px] leading-[22px] text-[#2B4A6F]">
+            <Sparkle className="mt-[3px] h-[16px] w-[16px] shrink-0" />
+            <p>
+              <span className="font-bold">Bottom line.</span>{" "}
+              {insight.bottomLine}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* AI takeaway: first row of every tab, same grid, lighter type, never faded or badged */}
+      <section aria-label="AI takeaway" className="py-[24px]" style={fade}>
+        <h3 className="font-samsung-one inline-flex items-center gap-[6px] text-[14px] font-semibold uppercase leading-[18px] tracking-[0.06em] text-[#2B4A6F]">
+          <Sparkle className="h-[12px] w-[12px]" />
+          AI takeaway
+        </h3>
+        <div className="mt-[12px] grid grid-cols-3 gap-[24px] md:gap-[48px]">
+          {selectedProducts.map((p) => (
+            <p
+              key={p.id}
+              className="font-samsung-one text-[15px] leading-[22px] text-zinc-900"
+            >
+              {insight.takeaways[p.id - 1]}
+            </p>
+          ))}
+        </div>
+        <p className="font-samsung-one mt-[12px] text-[12px] text-zinc-400">
+          Generated from the {tabTitle.toLowerCase()} rows below and verified
+          owner reviews.
+        </p>
+      </section>
+
       {rows.map((row, index) => {
         const cells = selectedProducts.map((p) => row.values[p.id - 1]);
         const differs = hasDifference(cells);
@@ -120,5 +165,18 @@ export default function SpecTable({
         );
       })}
     </div>
+  );
+}
+
+function Sparkle({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 20 20"
+      fill="currentColor"
+      className={className}
+    >
+      <path d="M10 1l1.8 5.2L17 8l-5.2 1.8L10 15l-1.8-5.2L3 8l5.2-1.8L10 1zM16 13l.9 2.1L19 16l-2.1.9L16 19l-.9-2.1L13 16l2.1-.9L16 13z" />
+    </svg>
   );
 }
