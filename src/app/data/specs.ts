@@ -26,7 +26,8 @@ export type Product = {
   id: number;
   title: string;
   badge: string;
-  /** Two or three lines of reviewer evidence for the "Best for" pill. */
+  description: string;
+  /** Reviewer summary used by the global-proposal layout. */
   reviewSummary: string;
   price: number;
   wasPrice: number;
@@ -41,6 +42,8 @@ export const products: Product[] = [
     id: 1,
     title: "Bespoke AI 4-Door French",
     badge: "Best for smart home",
+    description:
+      "Smarter cooling, seamless connectivity, engineered for modern living",
     reviewSummary:
       "Owners praise the Family Hub+ screen for recipes and seeing inside remotely, and the AI Vision camera for tracking groceries.",
     price: 3599,
@@ -59,6 +62,7 @@ export const products: Product[] = [
     id: 2,
     title: "3-Door French Door",
     badge: "Best for value",
+    description: "Dependable performance for every family, every day.",
     reviewSummary:
       "Reviewers call it dependable value: steady Twin Cooling Plus performance, a roomy fresh-food section and an easy-open handle.",
     price: 1974,
@@ -77,6 +81,7 @@ export const products: Product[] = [
     id: 3,
     title: "Bespoke 4-Door Flex",
     badge: "Best for large families",
+    description: "More storage options. More ways to make it yours",
     reviewSummary:
       "Owners love the FlexZone drawer that switches between fridge and freezer for parties and bulk shopping, plus the slim counter-depth profile.",
     price: 1799,
@@ -318,6 +323,74 @@ export const specData: Record<TabKey, SpecRow[]> = {
     },
     { label: "View Inside Remotely", values: [v("Yes"), v("No"), v("No")] },
   ],
+};
+
+/**
+ * AI-generated copy for the spec table: one takeaway per product per tab
+ * (indexed by product id) and a bottom line shown with Apply Key Differences.
+ * In production these are generated from the tab's rows and verified reviews,
+ * then cached with the catalog.
+ */
+export type TabInsight = {
+  takeaways: [string, string, string];
+  bottomLine: string;
+};
+
+export const insights: Record<TabKey, TabInsight> = {
+  "key-specs": {
+    takeaways: [
+      "Only one with a screen; ties for the largest capacity.",
+      "Most efficient of the three at 645 kWh/yr, with the smallest capacity.",
+      "Ties for largest capacity and adds Triple Cooling; highest energy use.",
+    ],
+    bottomLine:
+      "Choose the Bespoke AI for the screen, the 3-Door for the lowest running cost, the Flex for newer cooling at the same capacity.",
+  },
+  dimensions: {
+    takeaways: [
+      "Shallowest with handles, tied with the Flex. Heaviest at 359 lbs.",
+      "Lightest by about 80 lbs, but the deepest with handles.",
+      "Same footprint as the Bespoke AI and slightly shorter.",
+    ],
+    bottomLine:
+      "All three need the same clearance. Pick the 3-Door if delivery weight matters; otherwise depth is a wash.",
+  },
+  capacity: {
+    takeaways: [
+      "Most freezer space; mid-size fridge section with a small FlexZone.",
+      "Largest fridge section and the most shelves, but no FlexZone.",
+      "Largest FlexZone drawer; smallest dedicated freezer.",
+    ],
+    bottomLine:
+      "Fresh food first: the 3-Door. Frozen first: the Bespoke AI. Flexibility: the Flex.",
+  },
+  design: {
+    takeaways: [
+      "Bespoke panels plus the Family Hub+ touchscreen, in charcoal glass.",
+      "Classic stainless with an EZ-Open handle; no custom panels.",
+      "Bespoke panels in stainless or white glass; no display.",
+    ],
+    bottomLine:
+      "Both Bespoke models take custom panels. Only the Bespoke AI adds a display.",
+  },
+  performance: {
+    takeaways: [
+      "Dual ice maker and an internal beverage center on Twin Cooling Plus.",
+      "Single ice maker that makes slightly more ice per day; no dispenser.",
+      "Triple Cooling with Metal Cooling; dual ice and a beverage zone.",
+    ],
+    bottomLine:
+      "For drinks and ice, the Bespoke AI or the Flex. For simplicity, the 3-Door.",
+  },
+  smart: {
+    takeaways: [
+      "Family Hub+, AI Vision Inside, Alexa and remote view. The connected choice.",
+      "No Wi-Fi or app support.",
+      "SmartThings and energy savings, without the screen.",
+    ],
+    bottomLine:
+      "Smart features split cleanly: full on the Bespoke AI, partial on the Flex, none on the 3-Door.",
+  },
 };
 
 export function hasDifference(values: SpecValue[]): boolean {
