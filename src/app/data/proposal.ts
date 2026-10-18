@@ -41,11 +41,9 @@ export const capacityChip: Record<number, string> = {
   3: "28.6 cu. ft.",
 };
 
-export const summaries: Record<number, string> = {
-  1: "Shoppers praise the Family Hub+ screen for recipes, calendars and seeing inside remotely, and the AI Vision camera for tracking groceries. Quiet, premium build, with SmartThings energy savings as a frequent highlight.",
-  2: "Reviewers call it dependable value: consistent Twin Cooling Plus performance, a roomy fresh-food section and an easy-open handle. Praised for keeping produce crisp at a mid-range price.",
-  3: "Owners love the FlexZone drawer that switches between fridge and freezer for parties and bulk shopping. Customizable Bespoke panels and a slim counter-depth profile round out the reviews.",
-};
+export const summaries: Record<number, string> = Object.fromEntries(
+  products.map((p) => [p.id, p.reviewSummary]),
+);
 
 export const featureRows: FeatureRow[] = [
   {
